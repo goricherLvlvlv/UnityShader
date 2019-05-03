@@ -45,11 +45,12 @@ Shader "Custom/Chap5/Diffuse"
                 f.pos = UnityObjectToClipPos(v.vertex);
                 fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 
-                fixed normalDir = normalize(UnityObjectToWorldNormal(v.normal));
+                fixed3 normalDir = normalize(UnityObjectToWorldNormal(v.normal));
                 fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                // fixed3 diffuse = _LightColor0 * saturate(dot(normalDir, lightDir)) * _Diffuse;
                 fixed3 diffuse = _LightColor0 * saturate(dot(normalDir, lightDir)) * _Diffuse;
                 f.color = diffuse + ambient;
-
+                
                 return f;
 			}
 
