@@ -2,16 +2,19 @@
 
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
-Shader "Custom/Chap5/Diffuse"
+Shader "Custom/Chap6/Diffuse Per Pixel"
 {
 	Properties{
         _Diffuse ("Diffuse", Color) = (1, 1, 1, 1)
+
 	}
 
 	SubShader
 	{
 	
 		Pass{
+            Tags{"LightMode" = "ForwardBase"}
+
 			CGPROGRAM
 
 			#include "UnityCG.cginc"
@@ -36,27 +39,31 @@ Shader "Custom/Chap5/Diffuse"
 			struct v2f{
 				// 告知Unity, pos为裁剪空间的坐标
 				float4 pos : SV_POSITION;
-				// COLOR0语义, 可以用于存储颜色信息
-				float3 color : COLOR0;
+
+				float3 normalDir : TEXCOORD0;
 			};
 			
 			v2f vert(a2v v){
 				v2f f;
-                f.pos = UnityObjectToClipPos(v.vertex);
-                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 
-                fixed3 normalDir = normalize(UnityObjectToWorldNormal(v.normal));
-                fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
-                // fixed3 diffuse = _LightColor0 * saturate(dot(normalDir, lightDir)) * _Diffuse;
-                fixed3 diffuse = _LightColor0 * saturate(dot(normalDir, lightDir)) * _Diffuse;
-                f.color = diffuse + ambient;
-                
+                // 将裁剪控件的坐标赋予SV_POSITION
+                f.pos = UnityObjectToClipPos(v.vertex);
+
+                // 提供法线信息
+				f.normalDir = normalize(UnityObjectToWorldNormal(v.normal));
+
                 return f;
 			}
 
 			fixed4 frag(v2f i) : SV_TARGET{
 
-				return fixed4(i.color, 1.0);
+				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+				
+				fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+
+				fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(lightDir, i.normalDir));
+				
+				return fixed4(ambient + diffuse, 1.0);
 			}
 
 			ENDCG

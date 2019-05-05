@@ -1,4 +1,4 @@
-﻿Shader "Custom/Chap5/FalseColor"
+﻿Shader "Custom/Chap6/FalseColor"
 {
     SubShader
     {
@@ -20,7 +20,7 @@
                 o.pos = UnityObjectToClipPos(v.vertex);
 
                 // 可视化法线
-                o.color = fixed4(v.normal * 0.5 + fixed3(0.5, 0.5, 0.5), 1.0);
+                // o.color = fixed4(v.normal * 0.5 + fixed3(0.5, 0.5, 0.5), 1.0);
 
                 // 可视化切线
                 // o.color = fixed4(v.tangent.xyz * 0.5 + fixed3(0.5, 0.5, 0.5), 1.0);
@@ -28,6 +28,14 @@
                 // 可视化副切线
                 // fixed3 binormal = cross(v.normal, v.tangent.xyz) * v.tangent.w;
                 // o.color = fixed4(v.binormal * 0.5 + fixed3(0.5, 0.5, 0.5), 1.0);
+
+                // 光照方向
+                fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                o.color = fixed4(lightDir * 0.5 + fixed3(0.5, 0.5, 0.5), 1.0);
+
+                // fixed3 normalDir = normalize(UnityObjectToWorldNormal(v.normal));   // 法线方向
+                // fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);              // 光照方向
+                // o.color = dot(normalDir, lightDir);
                 return o;
             }
 

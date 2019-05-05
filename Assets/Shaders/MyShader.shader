@@ -1,4 +1,4 @@
-﻿Shader "Custom/Chap5/SimpleShader"
+﻿Shader "Custom/Chap6/SimpleShader"
 {
 	Properties{
 		_Color ("Color Tint", Color) = (1, 1, 1, 1)
