@@ -71,10 +71,25 @@ Shader "Custom/Chap7/NormalMapTangent"
 				// 建立坐标系转换矩阵
 				// x轴为切线, z轴为模型空间法线
 				// y轴为x,z的叉乘结果
-				float3x3 rotation = float3x3(v.tangent.xyz, binormal, v.normal);
+				
+				//float3x3 rotation = float3x3(v.tangent.xyz, binormal, v.normal);
 
-				f.lightDir = mul(rotation, ObjSpaceLightDir(v.vertex)).xyz;
-				f.viewDir = mul(rotation, ObjSpaceViewDir(v.vertex)).xyz;
+				//f.lightDir = mul(rotation, ObjSpaceLightDir(v.vertex)).xyz;
+				//f.viewDir = mul(rotation, ObjSpaceViewDir(v.vertex)).xyz;
+
+				// 上述坐标转换会出现问题, 因为使用了模型空间下的v.normal
+				// 采用获取世界坐标系中的光线和视野Direction
+				// 将其转换为切线空间下来使用, 而不是从Object Space => Tangent Space
+				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);
+				fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
+				fixed3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
+
+				float3x3 matrixWorldToTangent = float3x3(
+					worldTangent, worldBinormal, worldNormal
+				);
+
+				f.lightDir = mul(matrixWorldToTangent, WorldSpaceLightDir(v.vertex));
+				f.viewDir = mul(matrixWorldToTangent, WorldSpaceViewDir(v.vertex));
 
                 return f;
 			}
@@ -97,10 +112,12 @@ Shader "Custom/Chap7/NormalMapTangent"
 				tangentNormal.xy *= _BumpScale;
 
 				// w分量指的法线的深度? ==> 这是由于不同的法线贴图的压缩算法导致的
-				// 最好的方式是将贴图类型选为Normal map, 而后使用如上的内置函数UnpackNormal, 让Unity来判断压缩算法
+				// 最好的方式是将贴图类型选为Normal map, 让Unity自行压缩
+				// 而后使用如上的内置函数UnpackNormal, 让Unity来判断压缩后的采样算法
+
 				//packedNormal.x *= packedNormal.w;
 				//tangentNormal.xy = (packedNormal.xy * 2 - 1) * _BumpScale;
-				//tangentNormal.z = sqrt(1.0 - saturate(dot(tangentNormal.xy, tangentNormal.xy)));	// sqrt(1-|xy|), 即法线在Z轴上的长度分量(表示为深度)
+				//tangentNormal.z = sqrt(1.0 - saturate(dot(tangentNormal.xy, tangentNormal.xy)));	
 
 				fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
@@ -117,5 +134,12 @@ Shader "Custom/Chap7/NormalMapTangent"
 		}
 	
 	}
+	// 注意: 没有FallBack将可能没有阴影
+	// 在Unity中阴影计算是一个单独的系统
+	// 因为没有去写ShadowCaster/ShadowCollector的Pass
+	// 所以需要使用FallBack来为我实现阴影的细节
+
 	FallBack "Specular"
+	// 不过还是不能接受阴影
+	// TODO: unity shader第九章阴影部分
 }
