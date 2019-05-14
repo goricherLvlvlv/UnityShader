@@ -74,6 +74,7 @@ Shader "Custom/Chap7/Ramp Texture"
 				fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(saturate(dot(worldNormal, halfDir)), _Gloss);
 
 				// 计算渐变贴图下的DIFFUSE
+				// 光照使用的halfLambert的光照模型
 				fixed halfLambert = 0.5 * dot(worldNormal, worldLightDir) + 0.5;
 				fixed3 diffuseColor = tex2D(_RampTex, fixed2(halfLambert, halfLambert)).rgb * _Color.rgb;
 				fixed3 diffuse = _LightColor0.rgb * diffuseColor;
