@@ -63,9 +63,9 @@ Shader "Custom/Chap6/Blinn Phong"
 
 				// 高光反射(镜面反射) C_light * M_specular * max(0, normal•half)^Gloss
 				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, v.vertex).xyz);
-				fixed3 hDir = normalize(lightDir + viewDir);
+				fixed3 halfDir = normalize(lightDir + viewDir);
 				
-				fixed3 specular = _LightColor0.rgb * _Specular * pow(saturate(dot(normalDir, hDir)), _Gloss);
+				fixed3 specular = _LightColor0.rgb * _Specular * pow(saturate(dot(normalDir, halfDir)), _Gloss);
 
                 // 计算颜色
                 f.color = diffuse + ambient + specular;

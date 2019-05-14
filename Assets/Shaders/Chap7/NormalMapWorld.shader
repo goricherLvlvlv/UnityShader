@@ -101,6 +101,7 @@ Shader "Custom/Chap7/NormalMapWorld"
 				// 将其转换成世界空间下的数据
 				/*
 					下面的式子与该矩阵相乘的方式相同, 依旧是最熟悉的矩阵坐标转换
+					下面的矩阵是切线坐标系在世界空间下的坐标, 即WorldToTangent矩阵的逆矩阵
 					---------------------------------		---------
 					|		|		|		|		|		|	|	|
 					|	 tangent binormal normal	|	*	|  bump	|

@@ -52,6 +52,8 @@ Shader "Custom/Chap6/Half Lambert"
                 fixed3 normalDir = normalize(UnityObjectToWorldNormal(v.normal));   // 法线方向
                 fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);              // 光照方向
                 // 漫反射光 C_light * C_diffuse * max(0, normal•light)
+				// 半兰伯特模型, 将normal•light的区间从[-1, 1]变为[0, 1]
+				// 增大了亮度, 视觉效果会更明显
                 fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * (dot(normalDir, lightDir) * 0.5 + 0.5);
 
                 // 计算颜色

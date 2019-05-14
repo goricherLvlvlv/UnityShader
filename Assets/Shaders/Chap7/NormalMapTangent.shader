@@ -117,7 +117,7 @@ Shader "Custom/Chap7/NormalMapTangent"
 
 				//packedNormal.x *= packedNormal.w;
 				//tangentNormal.xy = (packedNormal.xy * 2 - 1) * _BumpScale;
-				//tangentNormal.z = sqrt(1.0 - saturate(dot(tangentNormal.xy, tangentNormal.xy)));	
+				tangentNormal.z = sqrt(1.0 - saturate(dot(tangentNormal.xy, tangentNormal.xy)));	
 
 				fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
