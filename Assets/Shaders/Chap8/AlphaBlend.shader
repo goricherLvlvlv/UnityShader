@@ -1,20 +1,32 @@
-﻿Shader "Custom/Chap8/AlphaTest"
+﻿Shader "Custom/Chap8/AlphaBlend"
 {
     Properties
     {
         _Color ("Main Tint", Color) = (1, 1, 1, 1)
 		_MainTex ("Main Tex", 2D) = "white"{}
-		_Cutoff ("Alpha Cutoff", Range(0, 1)) = 0.5
+		_AlphaScale ("Alpha Scale", Range(0, 1)) = 1
     }
     SubShader
     {
 		// Queue控制渲染顺序, AlphaTest说明需要透明测试
 		// IgnoreProjector为Ture, 让物体不会收到投影器的影响
 		// RenderType对着色器进行分类
-		Tags { "Queue" = "AlphaTest" "IgnoreProjector" = "True" "RenderType" = "TransparentCutout" }
+		Tags { "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+
+		// 该Pass只用于输出深度值, 不会把颜色写入Color Buffer中
+		// 实现效果: 模型自身不同部位会被遮挡, 即不会自己与自己混合
+		Pass{
+			ZWrite On
+			ColorMask 0
+		}
 
 		Pass{
 			Tags { "LightMode" = "ForwardBase" }	
+
+			ZWrite Off
+			// 格式: Blend SrcFactor DstFactor
+			// DstColor = SrcAlpha * SrcColor + (1 - SrcAlpha) * DstColor
+			Blend SrcAlpha OneMinusSrcAlpha
 
 			CGPROGRAM
 
@@ -27,7 +39,7 @@
 			fixed4 _Color;
 			sampler2D _MainTex;
 			fixed4 _MainTex_ST;
-			fixed _Cutoff;
+			fixed _AlphaScale;
 
 			struct a2v{
 				float4 vertex : POSITION;
@@ -58,14 +70,12 @@
 
 				fixed4 texColor = tex2D(_MainTex, i.uv);
 
-				// Alpha Test
-				clip(texColor.a - _Cutoff);
-
 				fixed3 albedo = texColor.rgb * _Color.rgb;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 				fixed3 diffuse = _LightColor0 * albedo * saturate(dot(worldNormalDir, worldLightDir));
 
-				return fixed4(ambient + diffuse, 1.0);
+				// 贴图的透明度 与 属性中的_AlphaScale 相乘
+				return fixed4(ambient + diffuse, texColor.a * _AlphaScale);
 			}
 
 			ENDCG
