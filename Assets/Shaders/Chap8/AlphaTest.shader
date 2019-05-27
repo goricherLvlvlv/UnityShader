@@ -12,6 +12,7 @@
 		// IgnoreProjector为Ture, 让物体不会收到投影器的影响
 		// RenderType对着色器进行分类
 		Tags { "Queue" = "AlphaTest" "IgnoreProjector" = "True" "RenderType" = "TransparentCutout" }
+		Cull Off
 
 		Pass{
 			Tags { "LightMode" = "ForwardBase" }	
