@@ -15,7 +15,7 @@
 
 		// 背面
 		Pass{
-			Tags { "LightMode" = "ForwardBase" }	
+			Tags { "LightMode" = "ForwardAdd" }	
 
 			Cull Front
 
@@ -23,12 +23,14 @@
 			// 格式: Blend SrcFactor DstFactor
 			// DstColor = SrcAlpha * SrcColor + (1 - SrcAlpha) * DstColor
 			// 原颜色是该片元产生的颜色, 目标颜色是原本储存在缓冲区的颜色
-			Blend SrcAlpha OneMinusSrcAlpha
+			//Blend SrcAlpha OneMinusSrcAlpha
+			Blend One One
 
 			CGPROGRAM
 
 			#pragma vertex vert
 			#pragma fragment frag
+			#pragma multi_compile_fwdadd_fullshadows
 
 			#include "Lighting.cginc"
 			#include "UnityCG.cginc"
@@ -70,7 +72,7 @@
 				fixed3 albedo = texColor.rgb * _Color.rgb;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 				fixed3 diffuse = _LightColor0 * albedo * saturate(dot(worldNormalDir, worldLightDir));
-
+				
 				// 贴图的透明度 与 属性中的_AlphaScale 相乘
 				return fixed4(ambient + diffuse, texColor.a * _AlphaScale);
 			}
@@ -94,6 +96,7 @@
 
 			#pragma vertex vert
 			#pragma fragment frag
+			#pragma multi_compile_fwdbase
 
 			#include "Lighting.cginc"
 			#include "UnityCG.cginc"
@@ -144,5 +147,5 @@
 		}
 
     }
-	FallBack "Transparent/VertexLit"
+	FallBack "Transparent/Cutout/VertexLit"
 }
