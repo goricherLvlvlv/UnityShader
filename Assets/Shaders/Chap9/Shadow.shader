@@ -11,7 +11,7 @@
         Tags { "RenderType"="Opaque" }
 
 		Pass{
-            Tags{"LightMode" = "ForwardBase"}
+            Tags{ "LightMode" = "ForwardBase" }
 			
 			CGPROGRAM
 
@@ -40,6 +40,8 @@
 				float4 pos : SV_POSITION;
 				float3 normalDir : TEXCOORD0;
 				float3 worldPos : TEXCOORD1;
+
+				// 让物体接受阴影
 				SHADOW_COORDS(2)
 			};
 			
@@ -189,6 +191,37 @@
             ENDCG
 
         }
+
+		// 投射阴影的Pass
+		Pass{
+			Name "ShadowCaster"
+			Tags { "LightMode" = "ShadowCaster" }
+
+			CGPROGRAM
+
+			#include "UnityCG.cginc"
+
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_shadowcaster
+
+			struct v2f{
+				V2F_SHADOW_CASTER;
+			};
+
+			v2f vert(appdata_base v){
+				v2f o;
+				TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+				return o;
+			}
+
+			float4 frag(v2f i) : SV_TARGET{
+				SHADOW_CASTER_FRAGMENT(i)
+			}
+
+			ENDCG
+		}
+
+		FallBack "Specular"
     }
-    FallBack "Specular"
 }
