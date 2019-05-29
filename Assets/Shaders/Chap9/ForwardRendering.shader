@@ -150,7 +150,7 @@ Shader "Custom/Chap9/ForwardRendering"
                 #ifdef USING_DIRECTIONAL_LIGHT
                     fixed atten = 1.0;
                 #else
-                    #if defined (POINT)
+                    #if defined (POINT) 
                         // 把点坐标转换到点光源的坐标空间中，_LightMatrix0由引擎代码计算后传递到shader中，这里包含了对点光源范围的计算，具体可参考Unity引擎源码。经过_LightMatrix0变换后，在点光源中心处lightCoord为(0, 0, 0)，在点光源的范围边缘处lightCoord模为1
                         float3 lightCoord = mul(unity_WorldToLight, float4(i.worldPos, 1)).xyz;
                         
