@@ -41,7 +41,10 @@
 				float3 normalDir : TEXCOORD0;
 				float3 worldPos : TEXCOORD1;
 
-				// 让物体接受阴影
+				// 让物体接受阴影, 如下所示:
+				// unityShadowCoord4 _ShadowCoord : TEXCOORD2;
+				// 这是Screen Space下的shadow, 通过宏定义来区分类型
+				// 还有Spot Light, Point Light, Shadow off的版本
 				SHADOW_COORDS(2)
 			};
 			
@@ -58,6 +61,13 @@
 				f.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
 				// 发送shadow坐标系给fragment shader
+				
+				// Screen Space Shadow
+				// 本地坐标转为世界坐标再转为阴影坐标
+				// f._ShadowCoord = mul(unity_WorldToShaow[0], mul(unity_ObjectToWorld, v.vertex));
+				
+				// UNITY_NO_SCREENSPACE_SHADOWS
+				// f._ShadowCoord = ComputeScreenPos(f.pos); 
 				TRANSFER_SHADOW(f);
 
                 return f;
@@ -82,6 +92,8 @@
 
                 fixed atten = 1;
 
+				// unitySampleShadow(i._ShadowCoord)
+				// 情况比较复杂, 暂时不考虑实现原理(也记不住)
 				fixed shadow = SHADOW_ATTENUATION(i);
 
 				return fixed4(ambient + (diffuse + specular) * atten * shadow, 1.0);

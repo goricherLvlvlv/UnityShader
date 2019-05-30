@@ -118,6 +118,8 @@
 				half alpha = tex2D(_MainTex, i.tex).a * _AlphaScale;
 
 				half alphaRef = tex3D(_DitherMaskLOD, float3(vpos.xy * 0.25, alpha * 0.9375)).a;
+
+				// 打孔的阴影表示透明
 				clip(alphaRef - 0.01);
 				
 				
