@@ -11,9 +11,11 @@ Shader "Custom/Common/Diffuse"
     SubShader
     {
         Tags { "RenderType" = "Opaque" "Queue" = "Geometry" }
+		// ZWrite Off
 
 		Pass{
 			Tags { "LightMode" = "ForwardBase" }
+			Name "Base Shader"
 
 			CGPROGRAM
 
@@ -97,6 +99,7 @@ Shader "Custom/Common/Diffuse"
 
 		Pass{
 			Tags { "LightMode" = "ForwardAdd" }
+			Name "Addition Shader"
 
 			CGPROGRAM
 
