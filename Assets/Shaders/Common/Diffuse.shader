@@ -80,6 +80,7 @@ Shader "Custom/Common/Diffuse"
 				ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 
 				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
+				bump = normalize(half3(dot(i.Tangent2World0.xyz, bump), dot(i.Tangent2World1.xyz, bump), dot(i.Tangent2World2.xyz, bump)));
 			
 				float3 worldPos = float3(i.Tangent2World0.w, i.Tangent2World1.w, i.Tangent2World2.w);
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
@@ -161,6 +162,7 @@ Shader "Custom/Common/Diffuse"
 				albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
 
 				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
+				bump = normalize(half3(dot(i.Tangent2World0.xyz, bump), dot(i.Tangent2World1.xyz, bump), dot(i.Tangent2World2.xyz, bump)));
 			
 				float3 worldPos = float3(i.Tangent2World0.w, i.Tangent2World1.w, i.Tangent2World2.w);
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
