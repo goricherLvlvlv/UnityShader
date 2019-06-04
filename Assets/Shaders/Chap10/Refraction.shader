@@ -43,7 +43,7 @@ Shader "Custom/Chap10/Refraction"
                 float3 worldPos : TEXCOORD0;
                 float3 worldNormal : TEXCOORD1;
                 float3 worldRefractDir : TEXCOORD2;
-                SHADOW_COORDS(4)
+                SHADOW_COORDS(3)
             };
 
             v2f vert(a2v v){
@@ -52,7 +52,7 @@ Shader "Custom/Chap10/Refraction"
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
                 o.worldNormal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
                 float3 worldViewDir = normalize(UnityWorldSpaceViewDir(o.worldPos));
-				float3 worldNormalDir = normalize(o.worldNormal);
+				float3 worldNormalDir = o.worldNormal;
 
 				// 入射角为i, 折射角为t
 				// ni * sin(i) = nt * sin(t) => sin(t) = ni/nt * sin(i) => sin(t) = _RefractionRatio * sin(i)
