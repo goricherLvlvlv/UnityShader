@@ -54,7 +54,7 @@ Shader "Custom/Chap10/Reflection"
                 // view + reflect = 2 * normal * dot(normal, view)
                 // 使用dot的原因: normal为单位向量, 而view的长度是未确定的.
                 // 但是view + reflect的向量相加的方面与normal相同, 长度为2倍view在normal方向上的投影
-                // o.worldReflectDir = reflect(-worldViewDir, o.worldNormal);
+                //o.worldReflectDir = reflect(-worldViewDir, o.worldNormal);
                 o.worldReflectDir = 2 * dot(o.worldNormal, worldViewDir) * o.worldNormal - worldViewDir;
                 TRANSFER_SHADOW(o);
 
