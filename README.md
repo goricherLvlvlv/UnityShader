@@ -3,5 +3,5 @@
 自娱自乐的项目, 有问题issues可以通知
 
 ## Book <<Essentials for Unity Shader -- LeLe Feng>>
-the project is built by unity 2018.3.14f, and I try to save calculation principle as far as possible(about math and physics)
+the project is built by unity 2018.3.14f, and I try to save calculation principle as far as possible(about math and physics) from <<Essentials for Unity Shader -- LeLe Feng>>.
 this is a self-entertainment project, if you have some problem, welcome to notice me in issues.
