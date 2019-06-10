@@ -15,7 +15,6 @@ Shader "Custom/Common/Diffuse"
 
 		Pass{
 			Tags { "LightMode" = "ForwardBase" }
-			Name "Base Shader"
 
 			CGPROGRAM
 
@@ -44,9 +43,9 @@ Shader "Custom/Common/Diffuse"
 			struct v2f{
 				float4 pos : SV_POSITION;
 				float4 uv : TEXCOORD0;
-				float4 Tangent2World0 : TEXCOORD1;
-				float4 Tangent2World1 : TEXCOORD2;
-				float4 Tangent2World2 : TEXCOORD3;
+				float4 TtoW0 : TEXCOORD1;
+				float4 TtoW1 : TEXCOORD2;
+				float4 TtoW2 : TEXCOORD3;
 				SHADOW_COORDS(4)
 			};
 
@@ -56,16 +55,16 @@ Shader "Custom/Common/Diffuse"
 				o.pos = UnityObjectToClipPos(v.vertex);
 
 				o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				o.uv.zw = v.texcoord.zw * _BumpMap_ST.xy + _BumpMap_ST.zw;
+				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 
 				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				float3 worldNormal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
 				float3 worldTangent = normalize(mul((float3x3)unity_ObjectToWorld, v.tangent));
 				float3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
 
-				o.Tangent2World0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
-				o.Tangent2World1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
-				o.Tangent2World2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
+				o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
+				o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
+				o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
 
 				TRANSFER_SHADOW(o);
 
@@ -82,9 +81,9 @@ Shader "Custom/Common/Diffuse"
 				ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 
 				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
-				bump = normalize(half3(dot(i.Tangent2World0.xyz, bump), dot(i.Tangent2World1.xyz, bump), dot(i.Tangent2World2.xyz, bump)));
+				bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
 			
-				float3 worldPos = float3(i.Tangent2World0.w, i.Tangent2World1.w, i.Tangent2World2.w);
+				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
 				
 				diffuse = _LightColor0 * albedo * saturate(dot(bump, lightDir));
@@ -99,7 +98,8 @@ Shader "Custom/Common/Diffuse"
 
 		Pass{
 			Tags { "LightMode" = "ForwardAdd" }
-			Name "Addition Shader"
+
+			Blend One One
 
 			CGPROGRAM
 
@@ -128,9 +128,9 @@ Shader "Custom/Common/Diffuse"
 			struct v2f{
 				float4 pos : SV_POSITION;
 				float4 uv : TEXCOORD0;
-				float4 Tangent2World0 : TEXCOORD1;
-				float4 Tangent2World1 : TEXCOORD2;
-				float4 Tangent2World2 : TEXCOORD3;
+				float4 TtoW0 : TEXCOORD1;
+				float4 TtoW1 : TEXCOORD2;
+				float4 TtoW2 : TEXCOORD3;
 				SHADOW_COORDS(4)
 			};
 
@@ -140,16 +140,16 @@ Shader "Custom/Common/Diffuse"
 				o.pos = UnityObjectToClipPos(v.vertex);
 
 				o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				o.uv.zw = v.texcoord.zw * _BumpMap_ST.xy + _BumpMap_ST.zw;
+				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 
 				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				float3 worldNormal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
 				float3 worldTangent = normalize(mul((float3x3)unity_ObjectToWorld, v.tangent));
 				float3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
 
-				o.Tangent2World0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
-				o.Tangent2World1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
-				o.Tangent2World2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
+				o.TtoW0 = float4(worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x);
+				o.TtoW1 = float4(worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y);
+				o.TtoW2 = float4(worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z);
 
 				TRANSFER_SHADOW(o);
 
@@ -165,9 +165,9 @@ Shader "Custom/Common/Diffuse"
 				albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
 
 				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));
-				bump = normalize(half3(dot(i.Tangent2World0.xyz, bump), dot(i.Tangent2World1.xyz, bump), dot(i.Tangent2World2.xyz, bump)));
+				bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
 			
-				float3 worldPos = float3(i.Tangent2World0.w, i.Tangent2World1.w, i.Tangent2World2.w);
+				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
 				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
 				
 				diffuse = _LightColor0 * albedo * saturate(dot(bump, lightDir));

@@ -58,7 +58,7 @@ Shader "Custom/Common/Specular"
 				o.pos = UnityObjectToClipPos(v.vertex);
 
 				o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				o.uv.zw = v.texcoord.zw * _BumpMap_ST.xy + _BumpMap_ST.zw;
+				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 
 				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				float3 worldNormal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
@@ -104,6 +104,8 @@ Shader "Custom/Common/Specular"
 		Pass{
 			Tags { "LightMode" = "ForwardAdd" }
 
+			Blend One One
+
 			CGPROGRAM
 
 			#include "UnityCG.cginc"
@@ -145,7 +147,7 @@ Shader "Custom/Common/Specular"
 				o.pos = UnityObjectToClipPos(v.vertex);
 
 				o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				o.uv.zw = v.texcoord.zw * _BumpMap_ST.xy + _BumpMap_ST.zw;
+				o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 
 				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				float3 worldNormal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
@@ -182,7 +184,7 @@ Shader "Custom/Common/Specular"
 				UNITY_LIGHT_ATTENUATION(atten, i, worldPos);
                 specular = _LightColor0 * _Specular.rgb * pow(saturate(dot(bump, halfDir)), _Gloss);    
 
-				return fixed4(ambient + (specular + diffuse) * atten, 1.0);
+				return fixed4((specular + diffuse) * atten, 1.0);
 			}
 
 			ENDCG
