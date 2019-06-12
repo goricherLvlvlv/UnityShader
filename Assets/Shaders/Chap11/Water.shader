@@ -15,7 +15,7 @@ Shader "Custom/Chap11/Water"
     }
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" "IgnoreProjection" = "True" "DisableBatching" = "True" }
+        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" "IgnoreProjector" = "True" "DisableBatching" = "True" }
         
 		Pass{
 			Tags { "LightMode" = "ForwardBase" }
