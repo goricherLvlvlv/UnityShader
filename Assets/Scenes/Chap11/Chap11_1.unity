@@ -123,6 +123,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: water_fall
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 12145608f6292bf4c9716c49ec546dd8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 12145608f6292bf4c9716c49ec546dd8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -312,6 +316,8 @@ GameObject:
   - component: {fileID: 1086195151}
   - component: {fileID: 1086195150}
   - component: {fileID: 1086195149}
+  - component: {fileID: 1086195153}
+  - component: {fileID: 1086195152}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -337,7 +343,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 0}
+  m_BackGroundColor: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -383,6 +389,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1086195152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086195148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de60dd61de43af498eb23146ab7bcf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brightness: 1
+  saturation: 1
+  contrast: 1
+  shader: {fileID: 4800000, guid: 8372e991fcffd964099ebd28f82f30e0, type: 3}
+--- !u!114 &1086195153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086195148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aa7b2dd84780410893d378830a8699d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickerCollider: {fileID: 0}
 --- !u!1 &1135458869
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +520,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 12145608f6292bf4c9716c49ec546dd8, type: 3}
       propertyPath: m_Name
       value: water_fall (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 12145608f6292bf4c9716c49ec546dd8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 12145608f6292bf4c9716c49ec546dd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -651,6 +690,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 12145608f6292bf4c9716c49ec546dd8, type: 3}
       propertyPath: m_Name
       value: water_fall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 12145608f6292bf4c9716c49ec546dd8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 12145608f6292bf4c9716c49ec546dd8, type: 3}
       propertyPath: m_LocalPosition.x

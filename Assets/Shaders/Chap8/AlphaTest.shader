@@ -86,7 +86,8 @@
 			Name "ShadowCaster"
 			Tags { "LightMode" = "ShadowCaster" }
 
-			ZWrite On ZTest LEqual
+			ZWrite On 
+			ZTest LEqual
 
 			CGPROGRAM
 
