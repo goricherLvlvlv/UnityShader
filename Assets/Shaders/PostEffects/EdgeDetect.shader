@@ -24,6 +24,9 @@
 			fixed4 _EdgeColor;
 			fixed4 _BackgroundColor;
 			
+			
+
+
 			struct v2f {
 				float4 pos : SV_POSITION;
 				half2 uv[9] : TEXCOORD0;
@@ -59,23 +62,60 @@
 			}
 
 			half sobel(v2f i){
-				half Gx[9] = {	1, 0, -1,
-								2, 0, -2,
-								1, 0, -1 };
 
-				half Gy[9] = {	1, 2, 1,
-								0, 0, 0,
-								-1, -2, -1 };
+				const half Gx[9] = {1, 0, -1,
+									2, 0, -2,
+									1, 0, -1 };
+
+				const half Gy[9] = {1, 2, 1,
+									0, 0, 0,
+									-1, -2, -1 };
 
 				half texColor;
 				half edgeX = 0;
 				half edgeY = 0;
 
-				for(int it = 0; it < 9; ++it){
-					texColor = luminance(tex2D(_MainTex, i.uv[it]));
-					edgeX += texColor * Gx[it];		// 颜色和对应卷积核相乘
-					edgeY += texColor * Gy[it];
-				}
+				//for(int it = 0; it < 9; ++it){
+				//	texColor = luminance(tex2D(_MainTex, i.uv[it]));
+				//	edgeX += texColor * Gx[it];		// 颜色和对应卷积核相乘
+				//	edgeY += texColor * Gy[it];
+				//}
+
+				texColor = luminance(tex2D(_MainTex, i.uv[0]));
+				edgeX += texColor * Gx[0];
+				edgeY += texColor * Gy[0];
+
+				texColor = luminance(tex2D(_MainTex, i.uv[1]));
+				edgeX += texColor * Gx[1];
+				edgeY += texColor * Gy[1];
+
+				texColor = luminance(tex2D(_MainTex, i.uv[2]));
+				edgeX += texColor * Gx[2];
+				edgeY += texColor * Gy[2];
+
+				texColor = luminance(tex2D(_MainTex, i.uv[3]));
+				edgeX += texColor * Gx[3];
+				edgeY += texColor * Gy[3];
+
+				texColor = luminance(tex2D(_MainTex, i.uv[4]));
+				edgeX += texColor * Gx[4];
+				edgeY += texColor * Gy[4];
+
+				texColor = luminance(tex2D(_MainTex, i.uv[5]));
+				edgeX += texColor * Gx[5];
+				edgeY += texColor * Gy[5];
+
+				texColor = luminance(tex2D(_MainTex, i.uv[6]));
+				edgeX += texColor * Gx[6];
+				edgeY += texColor * Gy[6];
+
+				texColor = luminance(tex2D(_MainTex, i.uv[7]));
+				edgeX += texColor * Gx[7];
+				edgeY += texColor * Gy[7];
+
+				texColor = luminance(tex2D(_MainTex, i.uv[8]));
+				edgeX += texColor * Gx[8];
+				edgeY += texColor * Gy[8];
 
 				// 边缘处|X| + |Y|接近于1
 				//return 1 - abs(edgeX) - abs(edgeY);
