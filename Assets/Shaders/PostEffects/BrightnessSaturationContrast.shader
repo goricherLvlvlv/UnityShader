@@ -45,9 +45,7 @@ Shader "Custom/PostEffects/BrightnessSaturationContrast"
 
 			float4 frag(v2f i) : SV_TARGET{
 				fixed4 renderTex = tex2D(_MainTex, i.uv);
-
-				// Brightness
-				fixed3 color = renderTex.rgb * _Brightness;
+				fixed3 color = renderTex.rgb;
 
 				// Saturation
 				// 我们常见的图片, 降低其饱和度时, 不同的颜色的灰度会不相同
@@ -60,6 +58,10 @@ Shader "Custom/PostEffects/BrightnessSaturationContrast"
 				// 增强明暗关系对比
 				fixed3 avgColor = fixed3(0.5, 0.5, 0.5);
 				color = lerp(avgColor, color, _Contrast);
+
+				// Brightness
+				color *=  _Brightness;
+
 
 				return fixed4(color, renderTex.a);
 			}
