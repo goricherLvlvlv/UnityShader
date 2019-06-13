@@ -316,7 +316,6 @@ GameObject:
   - component: {fileID: 1086195151}
   - component: {fileID: 1086195150}
   - component: {fileID: 1086195149}
-  - component: {fileID: 1086195153}
   - component: {fileID: 1086195152}
   m_Layer: 0
   m_Name: Main Camera
@@ -401,23 +400,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de60dd61de43af498eb23146ab7bcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brightness: 1.84
-  saturation: 0.34
+  brightness: 1
+  saturation: 1
   contrast: 1
   shader: {fileID: 4800000, guid: 8372e991fcffd964099ebd28f82f30e0, type: 3}
---- !u!114 &1086195153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086195148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aa7b2dd84780410893d378830a8699d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickerCollider: {fileID: 0}
 --- !u!1 &1135458869
 GameObject:
   m_ObjectHideFlags: 0
