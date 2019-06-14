@@ -68,7 +68,7 @@ Shader "Custom/PostEffects/GaussianBlur"
 		ZTest Always Cull Off ZWrite Off
 
 		Pass{
-			Name "Vertical Gaussian Blur"
+			Name "VERTICAL GAUSSIAN BLUR"
 
 			CGPROGRAM
 
@@ -79,7 +79,7 @@ Shader "Custom/PostEffects/GaussianBlur"
 		}
 
 		Pass{
-			Name "Horizontal Gaussian Blur"
+			Name "HORIZONTAL GAUSSIAN BLUR"
 
 			CGPROGRAM
 
