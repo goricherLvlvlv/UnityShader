@@ -118,7 +118,7 @@
 				edgeY += texColor * Gy[8];
 
 				// 边缘处|X| + |Y|接近于1
-				//return 1 - abs(edgeX) - abs(edgeY);
+				return 1 - abs(edgeX) - abs(edgeY);
 
 				// 水平方向
 				//return abs(edgeX);
@@ -127,7 +127,7 @@
 				//return abs(edgeY);
 
 				// 水平+垂直方向, 只保留边缘
-				return abs(edgeX) + abs(edgeY);
+				//return abs(edgeX) + abs(edgeY);
 			}
 
 			float4 frag(v2f i) : SV_TARGET{

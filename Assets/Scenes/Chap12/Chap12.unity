@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 163746416}
   - component: {fileID: 163746418}
   - component: {fileID: 163746419}
+  - component: {fileID: 163746420}
   - component: {fileID: 163746415}
   m_Layer: 0
   m_Name: Main Camera
@@ -208,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d8ce615f3bc8b148bdac369c7da60ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  edgeOnly: 1
+  edgeOnly: 0
   edgeColor: {r: 0, g: 0, b: 0, a: 1}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   shader: {fileID: 4800000, guid: 96558794df40ee940867b1eb649218d4, type: 3}
@@ -224,10 +225,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d1c0602e7cb0fd41b2ab7379ad9490c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iterations: 2
-  blurSpread: 0.6
-  downSample: 2
+  iterations: 1
+  blurSpread: 0.2
+  downSample: 1
   shader: {fileID: 4800000, guid: 472ea27c5b5e1014ba8405326e27fd43, type: 3}
+--- !u!114 &163746420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163746414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1b6b9a02f1eb041ac8c7803a05a4e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharpSpread: 1
+  shader: {fileID: 4800000, guid: 7fe116aa26435784991e7a8c23160464, type: 3}
 --- !u!1 &339425719
 GameObject:
   m_ObjectHideFlags: 0
