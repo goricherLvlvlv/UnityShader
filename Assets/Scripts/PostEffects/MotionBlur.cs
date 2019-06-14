@@ -34,10 +34,13 @@ public class MotionBlur : PostEffects
                 Graphics.Blit(src, accumulationTexture);
             }
 
+            // 仅做声明作用, 并非忘记释放资源
             accumulationTexture.MarkRestoreExpected();
 
             material.SetFloat("_BlurAmount", 1.0f - blurAmount);
 
+            // 在shader中进行blend操作, 场景和accmulationTexture都不是opaque
+            // 猜测是未回收accmulation贴图, 所以在场景中会保留下来, 最后会混合
             Graphics.Blit(src, accumulationTexture, material);
             Graphics.Blit(accumulationTexture, dest);
         }
