@@ -21,8 +21,7 @@
 		}
 
 		Pass{
-			Tags { "LightMode" = "ForwardAdd" }	
-
+			Tags { "LightMode" = "ForwardBase" }	
 			ZWrite Off
 			// 格式: Blend SrcFactor DstFactor
 			// DstColor = SrcAlpha * SrcColor + (1 - SrcAlpha) * DstColor
@@ -42,7 +41,7 @@
 
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma multi_compile_fwdadd
+			#pragma multi_compile_fwdbase
 
 			#include "Lighting.cginc"
 			#include "UnityCG.cginc"
