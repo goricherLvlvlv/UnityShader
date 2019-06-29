@@ -53,20 +53,32 @@ public class Fog : PostEffects
         if (material != null)
         {
             Matrix4x4 frustumCorners = Matrix4x4.identity;
-            float fov = Camera.fieldOfView;
-            float near = Camera.nearClipPlane;
-            float aspect = Camera.aspect;
+            float fov = Camera.fieldOfView;     // field of view, 视野角度
+            float near = Camera.nearClipPlane;  // 近裁剪平面距离
+            float aspect = Camera.aspect;       // 宽高比
 
             float halfHeight = near * Mathf.Tan(fov * Mathf.Deg2Rad * 0.5f);
             Vector3 toTop = CameraTransform.up * halfHeight;
             Vector3 toRight = CameraTransform.right * halfHeight * aspect;
 
             // TL TR BL BR
+            // 上左 上右 下左 下右
             Vector3 TL = CameraTransform.forward * near + toTop - toRight;
             Vector3 TR = CameraTransform.forward * near + toTop + toRight;
             Vector3 BL = CameraTransform.forward * near - toTop - toRight;
             Vector3 BR = CameraTransform.forward * near - toTop + toRight;
 
+            /*
+             *
+             * 相似三角形
+             * depth / dist = Near / |TL|
+             * dist = depth * (|TL| / Near)
+             * dist = depth * scale, 到任意一点的距离
+             *
+             * scale在shader中被调用, linearDepth * scale * normal_vector
+             * distance * normal_vector, 这就获得了相机指向目标的法线
+             *
+             */
             float scale = TL.magnitude / near;
 
             TL.Normalize();
