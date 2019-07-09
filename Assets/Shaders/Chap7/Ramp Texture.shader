@@ -10,7 +10,7 @@ Shader "Custom/Chap7/Ramp Texture"
         _Color ("Color Tint", Color) = (1, 1, 1, 1)
 		_RampTex ("Ramp Tex", 2D) = "white"{}
 		_Specular ("Specular", Color) = (1, 1, 1, 1)
-		_Gloss ("Gloss", Range(8.0, 256)) = 20
+		_Gloss ("Gloss", Range(2.0, 256)) = 20
 	}
 
 	SubShader
@@ -29,9 +29,9 @@ Shader "Custom/Chap7/Ramp Texture"
 
 			// 需要获取与Properties中同名变量
             fixed4 _Color;
-			sampler2D _RampTex;
-			fixed4 _Specular;
-			fixed _Gloss;
+			sampler2D _RampTex;		// 
+			fixed4 _Specular;		// 高光的颜色
+			fixed _Gloss;			// 调整高光范围, 越小范围越广
 
 			// application to view
 			struct a2v{
