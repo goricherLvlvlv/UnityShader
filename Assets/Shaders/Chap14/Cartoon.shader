@@ -22,6 +22,7 @@ Shader "Custom/Chap14/Cartoon"
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
+			#include "UnityCG.cginc"
 
 			float _Outline;
 			float4 _OutlineColor;
@@ -38,7 +39,7 @@ Shader "Custom/Chap14/Cartoon"
 			v2f vert(a2v v){
 				v2f o;
 
-				float4 pos = mul(UNITY_MATRIX_MV, v.vertex);
+				float4 pos = float4(UnityObjectToViewPos(v.vertex), 1.0);
 				float3 normal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
 				normal.z = -0.5;	// view space下, 当normal.z小于0时, 方向指向屏幕里
 				pos = pos + float4(normalize(normal), 0) * _Outline;	// 往normal方向扩张, 扩张的宽度由_Outline来确定
@@ -109,9 +110,10 @@ Shader "Custom/Chap14/Cartoon"
 				float3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 				float3 halfDir = normalize(lightDir + viewDir);
 
-				// 计算half lambert的blinn phong光照模型
 				fixed4 c = tex2D(_MainTex, i.uv);
+				// albedo反射率, 贴图采样 * 预设的颜色叠加
 				fixed3 albedo = c.rgb * _Color.rgb;
+				// 计算出环境光的颜色
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 
 				fixed diff = dot(normalDir, lightDir);
