@@ -40,27 +40,27 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Hatch0:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e3aaf824bb9994740b312fcc9c2eb7b4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Hatch1:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 67748341a07e74a8a8465ec9c9357563, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Hatch2:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d944a49f1b9e04e999eb78ce38c449ec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Hatch3:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 8389e69ac9b7049aa90a8c2d9b315fa4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Hatch4:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d050e9ef69a814b7fad151be55f6af95, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Hatch5:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: faa66aba4c9f543d9b2a0ef442e75cf3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -95,6 +95,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TileFactor: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
