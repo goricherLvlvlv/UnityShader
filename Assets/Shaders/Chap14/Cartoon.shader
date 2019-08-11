@@ -66,12 +66,12 @@ Shader "Custom/Chap14/Cartoon"
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_fwdbase
+			#include "UnityShaderVariables.cginc"
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float4 _Color;
 			sampler2D _Ramp;
-			float4 _Ramp_ST;
 			float4 _Specular;
 			float _SpecularScale;
 
@@ -105,10 +105,10 @@ Shader "Custom/Chap14/Cartoon"
 			}
 			
 			float4 frag(v2f i) : SV_TARGET{
-				float3 normalDir = normalize(i.worldNormal);
-				float3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
-				float3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
-				float3 halfDir = normalize(lightDir + viewDir);
+				fixed3 normalDir = normalize(i.worldNormal);
+				fixed3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
+				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
+				fixed3 halfDir = normalize(lightDir + viewDir);
 
 				fixed4 c = tex2D(_MainTex, i.uv);
 				// albedo反射率, 贴图采样 * 预设的颜色叠加
@@ -116,13 +116,13 @@ Shader "Custom/Chap14/Cartoon"
 				// 计算出环境光的颜色
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 
-				fixed diff = dot(normalDir, lightDir);
 				UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
+				fixed diff = dot(normalDir, lightDir);
 				diff = (diff * 0.5 + 0.5) * atten;
 
-				fixed3 diffuse = _LightColor0.rgb * albedo * tex2D(_Ramp, float2(diff, diff)).rgb;
+				fixed3 diffuse = _LightColor0.rgb * albedo *  tex2D(_Ramp, float2(diff, diff)).rgb;
 
-				fixed spec = dot(normalDir, lightDir);
+				fixed spec = dot(normalDir, halfDir);
 				fixed w = fwidth(spec) * 2.0;
 				fixed3 specular = _Specular.rgb * lerp(0, 1, smoothstep(-w, w, spec + _SpecularScale - 1)) * step(0.0001, _SpecularScale);
 
