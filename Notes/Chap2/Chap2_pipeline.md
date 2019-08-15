@@ -42,3 +42,6 @@ pipeline的起点是cpu, 以下则是cpu行为的三个阶段:
 1. 把数据加载到显存当中. 将渲染所需要的数据从硬盘加载到系统内存(Random Access Memory)中. 之后再讲grid和texture等等(例如normal, tangent)加载至显存当中, 这是因为显卡在VRAM(Video Random Access Memory)有着更高的读写速度, 而且大多数显卡不具有访问RAM的权限.
 2. 设置渲染的状态. 让CPU来指定需要的纹理、材质以及着色器, 这就是设置渲染状态的过程, 准备好以上的状态后, CPU会发起一个Draw Call给GPU.
 3. 调用Draw Call. 一个Draw Call仅仅会指向一个primitives.
+
+|表格 |盛大 |大师欧
+|---------|----|---|
