@@ -43,5 +43,9 @@ pipeline的起点是cpu, 以下则是cpu行为的三个阶段:
 2. 设置渲染的状态. 让CPU来指定需要的纹理、材质以及着色器, 这就是设置渲染状态的过程, 准备好以上的状态后, CPU会发起一个Draw Call给GPU.
 3. 调用Draw Call. 一个Draw Call仅仅会指向一个primitives.
 
-|表格 |盛大 |大师欧
-|---------|----|---|
+| Radiometric Quantity:Units | Photometric Quantity:Units |
+|:--------------------------:| :-------------------------:|
+|   radiant flux: *watts*(W) | luminous flux: lumen(lm)   |
+|   irradiance: W/m$^2$      |   illuminance: lux(lx)     |
+|  radiant intensity: W/*sr* | luminous intensity: candela(ce)|
+|   radiance: W/(m$^2$sr)    | luminance: cd/m$^2$ = nit  |
