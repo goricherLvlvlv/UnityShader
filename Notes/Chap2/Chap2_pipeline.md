@@ -41,11 +41,12 @@
 pipeline的起点是cpu, 以下则是cpu行为的三个阶段:
 1. 把数据加载到显存当中. 将渲染所需要的数据从硬盘加载到系统内存(Random Access Memory)中. 之后再讲grid和texture等等(例如normal, tangent)加载至显存当中, 这是因为显卡在VRAM(Video Random Access Memory)有着更高的读写速度, 而且大多数显卡不具有访问RAM的权限.
 2. 设置渲染的状态. 让CPU来指定需要的纹理、材质以及着色器, 这就是设置渲染状态的过程, 准备好以上的状态后, CPU会发起一个Draw Call给GPU.
-3. 调用Draw Call. 一个Draw Call仅仅会指向一个primitives.
-4. 
-    | Radiometric Quantity:Units | Photometric Quantity:Units |
-    |:--------------------------:| :-------------------------:|
-    |   radiant flux: *watts*(W) | luminous flux: lumen(lm)   |
-    |   irradiance: W/m$^2$      |   illuminance: lux(lx)     |
-    |  radiant intensity: W/*sr* | luminous intensity: candela(ce)|
-    |   radiance: W/(m$^2$sr)    | luminance: cd/m$^2$ = nit  |
+3. 调用Draw Call. 一个Draw Call仅仅会指向一个primitives. 
+
+#### **关于Draw Call**
+1. CPU与GPU是怎么实现并行工作的?
+    >在CPU与GPU之间使用一个命令缓冲区(Command Buffer). CPU往Command Buffer的队列中添加命令, 而GPU每完成一个渲染任务后则从中读取命令, 并去执行.
+2. 为什么Draw Call较多会影响帧数?
+    >因为每一次Draw Call前要进行许多零碎的工作, 当次数多了之后, 这些零碎的工作则会消耗CPU大量的性能去执行. 导致CPU过载, 从而帧数降低.
+3. 如何减少Draw Call?
+    >使用批处理(Batching)的方式来降低Draw Call(只是其中一种方式). 通过把多个网格合并成一个网格保存在内存中, 来降低DC, 而合并网格也需要消耗时间, 所以这个方法适用于静态物体, 对于动态物体的批处理可能还会得不偿失. 像上述的一个大的网格只消耗一次DC. 要注意的是, 一个网格内的物体只能使用同一种渲染状态, 如果之间会使用不同的渲染状态则无法使用批处理.
