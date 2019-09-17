@@ -29,7 +29,7 @@
   - 平移不属于线性变换, 但也是十分常用的变换方式
 - 齐次坐标: n维空间使用n+1维表示, 称为齐次坐标空间. 将一个向量添加上w值则成为齐次坐标.
   - 平移: 平移矩阵作用于一个向量的w值, 所以当w为0时可以用来表示方向向量, 因为方向向量是不受平移影响的.
-- 矩阵: $(x, y, z, 1)$
+- 矩阵变换: $(x, y, z, 1)$
   - 平移矩阵: $(x+tx, y+ty, z+tz, 1)$
   $$
   \left[
@@ -88,3 +88,24 @@
     \end{matrix} 
   \right]\\
   $$
+  - 复合变换: 将平移、旋转和缩放组合起来. 由于变换的结果是会受变换顺序所影响, 约定俗成的顺序如下所示
+    - 缩放
+    - 旋转
+    - 平移
+  - 旋转顺序: 如同复合变换, 不同的旋转顺序也会造成不同的结果. 在unity中使用zxy的旋转顺序, 但需要注意的是这个旋转顺序是直接作用于惯性坐标系的而非物体坐标系.
+    - 惯性坐标系: 在不断的旋转过程中不会去调整旋转时所使用的坐标, 即此时多次旋转用的是同一个坐标系.
+      ``` csharp
+        // Space.World和Space.Self在此处取了个巧, 让Self的初始坐标系与World相同
+        // Self坐标就能表示不断变化的物体坐标系, 而World就能表示不会变化的惯性坐标系
+        cube.transform.Rotate(new Vector3(0, 0, z), Space.World);
+        cube.transform.Rotate(new Vector3(x, 0, 0), Space.World);
+        cube.transform.Rotate(new Vector3(0, y, 0), Space.World);
+        // 或者如下
+        cube.transform.Rotate(new Vector3(x, y, z));
+      ```
+    - 物体坐标系: 与惯性坐标系相反, 这个坐标系的物体每旋转一个方向后调整一下坐标系, 即直接使用物体自己的坐标系来进行旋转, 旋转顺序与惯性坐标系刚好相反时能获取相同的结果, 即为yxz的旋转顺序.
+      ``` csharp
+        cube.transform.Rotate(new Vector3(0, y, 0), Space.Self);
+        cube.transform.Rotate(new Vector3(x, 0, 0), Space.Self);
+        cube.transform.Rotate(new Vector3(0, 0, z), Space.Self);
+      ```
