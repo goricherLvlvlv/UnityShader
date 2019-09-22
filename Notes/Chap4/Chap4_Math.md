@@ -109,3 +109,84 @@
         cube.transform.Rotate(new Vector3(x, 0, 0), Space.Self);
         cube.transform.Rotate(new Vector3(0, 0, z), Space.Self);
       ```
+---------------------------------------------------------------------------
+#### **坐标空间**
+$A_p = M_{c->p}A_c$
+
+$B_c = M_{p->c}B_p$
+
+如何确定一个$M_{c->p}$的变换矩阵. 首先可以观察一个点的坐标$(a,b,c)$是如何获得的, 这分为几步
+>1. 从坐标原点开始
+>2. 向x轴移动a, 向y轴移动b, 向z轴移动c
+
+由上述规则可推出$A_c$的坐标的公式为$O_c+a*\vec{x}+b*\vec{y}+c*\vec{z}$, 此处$O_c,\vec{x},\vec{y},\vec{z}$都是坐标系C在坐标系P下的位置和向量, 而a,b,c则是点A在坐标系C下的坐标.
+$$
+A_p = O_c+a*\vec{x}+b*\vec{y}+c*\vec{z}\\
+A_p = O_c+a*(x_{xc},y_{xc},z_{xc})+b*(x_{yc},y_{yc},z_{yc})+c*(x_{zc},y_{zc},z_{zc})\\
+$$
+$$
+(x_{Oc},y_{Oc},z_{Oc})+
+\left[
+\begin{matrix}
+  |&|&|\\
+  \vec{x}&\vec{y}&\vec{z}\\
+  |&|&|\\
+\end{matrix}
+\right]
+*
+\left[
+\begin{matrix}
+  a\\
+  b\\
+  c\\
+\end{matrix}
+\right]
+$$
+为了完成一个平移的变换, 我们将矩阵转为齐次坐标空间中:
+$$
+\left[
+\begin{matrix}
+  |&|&|&x_{Oc}\\
+  \vec{x}&\vec{y}&\vec{z}&y_{Oc}\\
+  |&|&|&z_{Oc}\\
+  0&0&0&1\\
+\end{matrix}
+\right]
+*
+\left[
+\begin{matrix}
+  a\\
+  b\\
+  c\\
+  1\\
+\end{matrix}
+\right]
+$$
+向量是不受平移所影响的, 所以针对向量使用的矩阵不需要转为齐次坐标系:
+$$
+\left[
+\begin{matrix}
+  |&|&|\\
+  \vec{x_c}&\vec{y_c}&\vec{z_c}\\
+  |&|&|\\
+\end{matrix}
+\right]
+*
+\left[
+\begin{matrix}
+  a\\
+  b\\
+  c\\
+\end{matrix}
+\right]
+$$
+以上就是$M_{c->p}$矩阵的计算流程了. 由于该矩阵是一个正交矩阵, 所以$M_{p->c}$矩阵则是该矩阵的转置矩阵, 可以通过乘上$\begin{matrix}[-&\vec{x_c}&-]^T\end{matrix}$来验证矩阵是否正确:
+$$
+\left[
+\begin{matrix}
+  -&\vec{x_c}&-\\
+  -&\vec{y_c}&-\\
+  -&\vec{z_c}&-\\
+\end{matrix}
+\right]
+$$

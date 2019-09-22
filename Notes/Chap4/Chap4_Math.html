@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chap4_Math.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  "Meiryo", "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+</head>
+<body>
+<h2 id="%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80"><strong>数学基础</strong></h2>
+<hr>
+<h4 id="%E7%AC%9B%E5%8D%A1%E5%B0%94%E5%9D%90%E6%A0%87%E7%B3%BB"><strong>笛卡尔坐标系</strong></h4>
+<ul>
+<li>三维笛卡尔坐标分成两种坐标系, 左手坐标系以及右手坐标系. 而在unity中则使用左手坐标系来进行计算.</li>
+</ul>
+<hr>
+<h4 id="%E7%9F%A2%E9%87%8F%E8%AE%A1%E7%AE%97"><strong>矢量计算</strong></h4>
+<ul>
+<li>点积(dot): 又被称为内积, $\vec{\alpha} \cdot \vec{\beta}$的数学意义是a在b上的投影乘上b的模长(反之亦然). 值为$|\alpha||\beta|\cos\theta$.</li>
+<li>叉积(cross): 又被称为外积, $\vec{\alpha} \times \vec{\beta}$的数学意义则是获取一个同时垂直于a,b的向量, 而叉积的方向则是通过将四指(根据坐标系决定手的左右)指向向量a, 朝着b方向握拳, 大拇指所指向的方向则是向量的方向. 叉积的值则是$|\alpha||\beta|\sin\theta$.</li>
+</ul>
+<hr>
+<h4 id="%E7%9F%A9%E9%98%B5"><strong>矩阵</strong></h4>
+<ul>
+<li>矩阵的乘法性质:
+<ul>
+<li>不满足交换律, AB != BA(通常情况)</li>
+<li>满足结合律, A(BC) == (AB)C</li>
+</ul>
+</li>
+<li>特殊矩阵:
+<ul>
+<li>方块矩阵: 即方阵, 行列数相等</li>
+<li>单位矩阵: 常用I来表示, 任何矩阵和单位矩阵相乘都是原来的值.</li>
+<li>转置矩阵: 即原矩阵进行翻转</li>
+<li>逆矩阵:
+<ul>
+<li>$M<em>M^{-1} == M_1</em>M == I$</li>
+<li>$(M^{-1})^{-1} == M$</li>
+<li>$I^{-1} = I$</li>
+<li>$(M^{-1})^T == (M^T)^{-1}$, 转置矩阵的逆矩阵 就是 逆矩阵的转置</li>
+<li>$(AB)^{-1} == B^{-1}*A^{-1}$</li>
+</ul>
+</li>
+<li>正交矩阵: 如果转置矩阵就是它的逆矩阵, 推到坐标空间上, 如果坐标的三个基矢量互相垂直, 则称这是一组正交基.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="%E5%8F%98%E6%8D%A2"><strong>变换</strong></h4>
+<ul>
+<li>线性变换: 保留矢量加和标量乘的变换, 即$f(x+y)=f(x)+f(y)与kf(x)=f(kx)$
+<ul>
+<li>缩放, 旋转都是属于线性变换</li>
+<li>平移不属于线性变换, 但也是十分常用的变换方式</li>
+</ul>
+</li>
+<li>齐次坐标: n维空间使用n+1维表示, 称为齐次坐标空间. 将一个向量添加上w值则成为齐次坐标.
+<ul>
+<li>平移: 平移矩阵作用于一个向量的w值, 所以当w为0时可以用来表示方向向量, 因为方向向量是不受平移影响的.</li>
+</ul>
+</li>
+<li>矩阵变换: $(x, y, z, 1)$
+<ul>
+<li>平移矩阵: $(x+tx, y+ty, z+tz, 1)$
+$$
+\left[
+\begin{matrix}
+1 &amp; 0 &amp; 0 &amp; tx\
+0 &amp; 1 &amp; 0 &amp; ty\
+0 &amp; 0 &amp; 1 &amp; tz\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+$$</li>
+<li>缩放矩阵: $(kx<em>x, ky</em>y, kz*z, 1)$
+$$
+\left[
+\begin{matrix}
+kx &amp; 0 &amp; 0 &amp; 0\
+0 &amp; ky &amp; 0 &amp; 0\
+0 &amp; 0 &amp; kz &amp; 0\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+$$</li>
+<li>旋转矩阵(绕z轴):
+$$
+a为目标角度, b为源角度.\
+\cos{a} = \cos{(\theta+b)} = \cos{\theta}\cos{b} - \sin{\theta}\sin{b}\
+\sin{a} = \sin{(\theta+b)} = \sin{\theta}\cos{b} + \cos{\theta}\sin{b}\
+x^\shortmid=x\cos{\theta}-y\sin{\theta}\
+y^\shortmid=x\sin{\theta}+y\cos{\theta}\
+$$
+$$
+\left[
+\begin{matrix}
+\cos{\theta} &amp; -\sin{\theta} &amp; 0 &amp; 0\
+\sin{\theta} &amp; \cos{\theta} &amp; 0 &amp; 0\
+0 &amp; 0 &amp; 1 &amp; 0\
+0 &amp; 0 &amp; 0 &amp; 1\
+\end{matrix}
+\right]\
+想要把z轴中心轴更换十分简单, 如y轴, 首先将线性变换3x3部分的每行上移一行, 如下所示\
+\left[
+\begin{matrix}
+\sin{\theta} &amp; \cos{\theta} &amp; 0 &amp; 0\
+0 &amp; 0 &amp; 1 &amp; 0\
+\cos{\theta} &amp; -\sin{\theta} &amp; 0 &amp; 0\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]\
+根据有数字1的行数, 每一列按照相同方式移动, 如下则是关于y轴旋转的矩阵了\
+\left[
+\begin{matrix}
+\cos{\theta} &amp; 0 &amp; \sin{\theta} &amp; 0\
+0 &amp; 1 &amp; 0 &amp; 0\
+-\sin{\theta} &amp; 0 &amp; \cos{\theta} &amp; 0\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]\
+$$</li>
+<li>复合变换: 将平移、旋转和缩放组合起来. 由于变换的结果是会受变换顺序所影响, 约定俗成的顺序如下所示
+<ul>
+<li>缩放</li>
+<li>旋转</li>
+<li>平移</li>
+</ul>
+</li>
+<li>旋转顺序: 如同复合变换, 不同的旋转顺序也会造成不同的结果. 在unity中使用zxy的旋转顺序, 但需要注意的是这个旋转顺序是直接作用于惯性坐标系的而非物体坐标系.
+<ul>
+<li>惯性坐标系: 在不断的旋转过程中不会去调整旋转时所使用的坐标, 即此时多次旋转用的是同一个坐标系.<pre class="hljs"><code><div>  <span class="hljs-comment">// Space.World和Space.Self在此处取了个巧, 让Self的初始坐标系与World相同</span>
+  <span class="hljs-comment">// Self坐标就能表示不断变化的物体坐标系, 而World就能表示不会变化的惯性坐标系</span>
+  cube.transform.Rotate(<span class="hljs-keyword">new</span> Vector3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, z), Space.World);
+  cube.transform.Rotate(<span class="hljs-keyword">new</span> Vector3(x, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>), Space.World);
+  cube.transform.Rotate(<span class="hljs-keyword">new</span> Vector3(<span class="hljs-number">0</span>, y, <span class="hljs-number">0</span>), Space.World);
+  <span class="hljs-comment">// 或者如下</span>
+  cube.transform.Rotate(<span class="hljs-keyword">new</span> Vector3(x, y, z));
+</div></code></pre>
+</li>
+<li>物体坐标系: 与惯性坐标系相反, 这个坐标系的物体每旋转一个方向后调整一下坐标系, 即直接使用物体自己的坐标系来进行旋转, 旋转顺序与惯性坐标系刚好相反时能获取相同的结果, 即为yxz的旋转顺序.<pre class="hljs"><code><div>  cube.transform.Rotate(<span class="hljs-keyword">new</span> Vector3(<span class="hljs-number">0</span>, y, <span class="hljs-number">0</span>), Space.Self);
+  cube.transform.Rotate(<span class="hljs-keyword">new</span> Vector3(x, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>), Space.Self);
+  cube.transform.Rotate(<span class="hljs-keyword">new</span> Vector3(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, z), Space.Self);
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4"><strong>坐标空间</strong></h4>
+<p>$A_p = M_{c-&gt;p}A_c$</p>
+<p>$B_c = M_{p-&gt;c}B_p$</p>
+<p>如何确定一个$M_{c-&gt;p}$的变换矩阵. 首先可以观察一个点的坐标$(a,b,c)$是如何获得的, 这分为几步</p>
+<blockquote>
+<ol>
+<li>从坐标原点开始</li>
+<li>向x轴移动a, 向y轴移动b, 向z轴移动c</li>
+</ol>
+</blockquote>
+<p>由上述规则可推出$A_c$的坐标的公式为$O_c+a*\vec{x}+b*\vec{y}+c*\vec{z}$, 此处$O_c,\vec{x},\vec{y},\vec{z}$都是坐标系C在坐标系P下的位置和向量, 而a,b,c则是点A在坐标系C下的坐标.
+$$
+A_p = O_c+a*\vec{x}+b*\vec{y}+c*\vec{z}\
+A_p = O_c+a*(x_{xc},y_{xc},z_{xc})+b*(x_{yc},y_{yc},z_{yc})+c*(x_{zc},y_{zc},z_{zc})\
+$$
+$$
+(x_{Oc},y_{Oc},z_{Oc})+
+\left[
+\begin{matrix}
+|&amp;|&amp;|\
+\vec{x}&amp;\vec{y}&amp;\vec{z}\
+|&amp;|&amp;|\
+\end{matrix}
+\right]
+*
+\left[
+\begin{matrix}
+a\
+b\
+c\
+\end{matrix}
+\right]
+$$
+为了完成一个平移的变换, 我们将矩阵转为齐次坐标空间中:
+$$
+\left[
+\begin{matrix}
+|&amp;|&amp;|&amp;x_{Oc}\
+\vec{x}&amp;\vec{y}&amp;\vec{z}&amp;y_{Oc}\
+|&amp;|&amp;|&amp;z_{Oc}\
+0&amp;0&amp;0&amp;1\
+\end{matrix}
+\right]
+*
+\left[
+\begin{matrix}
+a\
+b\
+c\
+1\
+\end{matrix}
+\right]
+$$
+向量是不受平移所影响的, 所以针对向量使用的矩阵不需要转为齐次坐标系:
+$$
+\left[
+\begin{matrix}
+|&amp;|&amp;|\
+\vec{x_c}&amp;\vec{y_c}&amp;\vec{z_c}\
+|&amp;|&amp;|\
+\end{matrix}
+\right]
+*
+\left[
+\begin{matrix}
+a\
+b\
+c\
+\end{matrix}
+\right]
+$$
+以上就是$M_{c-&gt;p}$矩阵的计算流程了. 由于该矩阵是一个正交矩阵, 所以$M_{p-&gt;c}$矩阵则是该矩阵的转置矩阵, 可以通过乘上$\begin{matrix}[-&amp;\vec{x_c}&amp;-]^T\end{matrix}$来验证矩阵是否正确:
+$$
+\left[
+\begin{matrix}
+-&amp;\vec{x_c}&amp;-\
+-&amp;\vec{y_c}&amp;-\
+-&amp;\vec{z_c}&amp;-\
+\end{matrix}
+\right]
+$$</p>
+
+</body>
+</html>
