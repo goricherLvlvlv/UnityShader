@@ -53,8 +53,8 @@
   \right]
   $$
   - 旋转矩阵(绕z轴):
+  a为目标角度, b为源角度.
   $$
-  a为目标角度, b为源角度.\\
   \cos{a} = \cos{(\theta+b)} = \cos{\theta}\cos{b} - \sin{\theta}\sin{b}\\
   \sin{a} = \sin{(\theta+b)} = \sin{\theta}\cos{b} + \cos{\theta}\sin{b}\\
   x^\shortmid=x\cos{\theta}-y\sin{\theta}\\
@@ -69,7 +69,9 @@
     0 & 0 & 0 & 1\\
     \end{matrix} 
   \right]\\
-  想要把z轴中心轴更换十分简单, 如y轴, 首先将线性变换3x3部分的每行上移一行, 如下所示\\
+  $$
+  想要把z轴中心轴更换十分简单, 如y轴, 首先将线性变换3x3部分的每行上移一行, 如下所示
+  $$
   \left[
   \begin{matrix}
     \sin{\theta} & \cos{\theta} & 0 & 0\\
@@ -78,7 +80,9 @@
     0 & 0 & 0 & 1
     \end{matrix} 
   \right]\\
-  根据有数字1的行数, 每一列按照相同方式移动, 如下则是关于y轴旋转的矩阵了\\
+  $$
+  根据有数字1的行数, 每一列按照相同方式移动, 如下则是关于y轴旋转的矩阵了
+  $$
   \left[
   \begin{matrix}
     \cos{\theta} & 0 & \sin{\theta} & 0\\
