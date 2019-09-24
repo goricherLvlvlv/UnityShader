@@ -14,5 +14,59 @@
    - 从**世界空间**转换到**观察空间**同样使用上述的矩阵. 但要注意最后对z方向进行取反, 因为两者使用的坐标系方向不同.
 4. 裁剪空间(clip space):
    - 使用**左手坐标系**.
-   - 使用**裁剪矩阵**(又被称为**透视矩阵**)进行变换.
+   - 使用**裁剪矩阵**(又被称为**投影矩阵**(projection matrix))进行变换. 常用的两个矩阵为正交投影和透视投影. 透视投影有着近大远小的视觉效果, 正交投影则会完全一致适合2D游戏以及UI界面.
+   - 投影矩阵并不会进行真正的投影计算, 即不会在这个时候把3d视图变为2d的, 但是会将视椎体内的变换成齐次坐标系(4D空间), 也就是裁剪空间.
+   ![](frustum.png)
+   ![](topFrustum.png)
+
+   - 投影矩阵推导如下:
+     $$
+        \left[
+            \begin{matrix}
+                x_{clip}\\
+                y_{clip}\\
+                z_{clip}\\
+                w_{clip}\\
+            \end{matrix}
+        \right]
+        =
+        M_{projection} *
+        \left[
+            \begin{matrix}
+                x_{eye}\\
+                y_{eye}\\
+                z_{eye}\\
+                w_{eye}\\
+            \end{matrix}
+        \right]
+     $$
+     $$
+        \left[
+            \begin{matrix}
+                x_{ndc}\\
+                y_{ndc}\\
+                z_{ndc}\\
+            \end{matrix}
+        \right]
+        =
+        \left[
+            \begin{matrix}
+                x_{clip}/w_{clip}\\
+                y_{clip}/w_{clip}\\
+                z_{clip}/w_{clip}\\
+            \end{matrix}
+        \right]
+     $$
+     - 在空间中有一点, 坐标为$(x_e, y_e, z_e)$. 与近平面相交于一点, 坐标为$(x_p, y_p, z_p)$.
+     - $\cfrac{-n}{z_e} = \cfrac{x_p}{x_e}$与$\cfrac{-n}{z_e} = \cfrac{y_p}{y_e}$.
+     - 关于y轴同理可得, 从而推出交点坐标$(\cfrac{-n}{z_e}x_e, \cfrac{-n}{z_e}y_e, -n)$. 在xy的平面上只要分别除以l和r就能获得(-1,1)的区间, 为了让z轴也处于(-1,1)的区间, 所以使用$-z_e$来作w值. $z_{ndc} = (k*z_e+b)/-z_e$, $z_{ndc}$在-1,1的位置则可产生两条公式:
+       - $-1 = -k + b/n$
+       - $1 = -k + b/f$
+       - $b = \cfrac{2fn}{n-f}, k = \cfrac{n+f}{n-f}$
+       - $z_{clip} = \cfrac{n+f}{n-f}z_e + \cfrac{2fn}{n-f}$
+     - 关于xy平面的计算:
+       - $x_{ndc} = \cfrac{1--1}{r-l}x_p+b$.
+       - $1 = \cfrac{2r}{r-l} + b$ => $b = \cfrac{l+r}{l-r}$
+       - $x_{ndc} = \cfrac{2}{r-l}*\cfrac{nx_e}{-z_e} + \cfrac{l+r}{l-r}$
+       - $x_{clip} = \cfrac{2nx_e}{r-l} + \cfrac{(l+r)z_e}{r-l}$
 5. 屏幕空间(screen space):
