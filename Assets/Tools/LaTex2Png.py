@@ -8,7 +8,44 @@ def ConvertMatrix2Png(str_list):
         tmp = tmp.replace('\\', '\\\\')
         tmp = tmp.replace(' ', '&space;')
         res += tmp + '&space;'
-    return "![](https://latex.codecogs.com/png.latex?{0})".format(res) + '\n'
+    return "\n![](https://latex.codecogs.com/png.latex?{0})".format(res) + '\n\n'
+
+
+def ConvertSentence2Png(str_line, left, right):
+    new_str_line = ''
+    res_index = 0
+    for i in range(0, left.__len__()):
+        if right[i] - left[i] >= 2:
+            if i <= 0:
+                new_str_line += str_line[0: left[i]]
+            else:
+                new_str_line += str_line[right[i - 1] + 1: left[i]]
+            latex = str_line[left[i] + 1: right[i]]
+            latex = latex.replace(' ', '&space;')
+            new_str_line += "![](https://latex.codecogs.com/png.latex?{0})".format(latex)
+            # 补上单行结尾
+            if i is left.__len__() - 1:
+                new_str_line += str_line[right[i] + 1:]
+        elif right[i] == left[i] + 1:
+            res_index = lineIndex
+
+    return new_str_line, res_index
+
+
+def GetSingleFlag(str_line):
+    lr_diff = False
+    left = list()
+    right = list()
+    # 计算出每一个$的位置
+    for index in range(0, str_line.__len__()):
+        if line[index] is '$' and lr_diff:
+            lr_diff = ~lr_diff
+            right.append(index)
+        elif line[index] is '$' and ~lr_diff:
+            lr_diff = ~lr_diff
+            left.append(index)
+
+    return left, right
 
 
 if __name__ == '__main__':
@@ -20,32 +57,17 @@ if __name__ == '__main__':
     for lineIndex in range(0, lines.__len__()):
 
         line = lines[lineIndex]
-        LRDiff = False
         # 保存坐标
         left = list()
         right = list()
         # 保存新字符串
         new_line = ''
         # 计算出每一个$的位置
-        for index in range(0, line.__len__()):
-            if line[index] is '$' and LRDiff:
-                LRDiff = ~LRDiff
-                right.append(index)
-            elif line[index] is '$' and ~LRDiff:
-                LRDiff = ~LRDiff
-                left.append(index)
+        left, right = GetSingleFlag(line)
         # 将这一行的数学公式替换成图片
-        for index in range(0, left.__len__()):
-            if right[index] - left[index] >= 2:
-                if index <= 0:
-                    new_line += line[0: left[index]]
-                else:
-                    new_line += line[right[index - 1]: left[index]]
-                latex = line[left[index] + 1: right[index]]
-                latex = latex.replace(' ', '&space;')
-                new_line += "![](https://latex.codecogs.com/png.latex?{0})".format(latex)
-            elif right[index] == left[index] + 1:
-                doubleFlag.append(lineIndex)
+        new_line, double_index = ConvertSentence2Png(line, left, right)
+        if double_index is not 0:
+            doubleFlag.append(double_index)
 
         new_f.append(new_line + '\n' if new_line is not '' else line)
 
