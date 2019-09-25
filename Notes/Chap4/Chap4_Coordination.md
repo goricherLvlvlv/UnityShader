@@ -68,5 +68,17 @@
        - $x_{ndc} = \cfrac{1--1}{r-l}x_p+b$.
        - $1 = \cfrac{2r}{r-l} + b$ => $b = \cfrac{l+r}{l-r}$
        - $x_{ndc} = \cfrac{2}{r-l}*\cfrac{nx_e}{-z_e} + \cfrac{l+r}{l-r}$
-       - $x_{clip} = \cfrac{2nx_e}{r-l} + \cfrac{(l+r)z_e}{r-l}$
+       - $x_{clip} = \cfrac{2nx_e}{r-l} + \cfrac{(r+l)z_e}{r-l}$
+       - $y_{clip} = \cfrac{2ny_e}{t-b} + \cfrac{(t+b)z_e}{t-b}$
+     - 推出矩阵如下:
+     $$
+        \left[
+            \begin{matrix}
+                \cfrac{2n}{r-l}&0&\cfrac{r+l}{r-l}&0\\
+                0&\cfrac{2n}{t-b}&\cfrac{t+b}{t-b}&0\\
+                0&0&\cfrac{n+f}{n-f}&\cfrac{2fn}{n-f}\\
+                0&0&-1&0\\
+            \end{matrix}
+        \right]
+     $$
 5. 屏幕空间(screen space):
