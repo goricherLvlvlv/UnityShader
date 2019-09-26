@@ -81,4 +81,23 @@
             \end{matrix}
         \right]
      $$
+    ![](orthographic.png)
+    - 正交投影矩阵:
+      - $x_{ndc} = \cfrac{2}{r-l}x_e + \beta$, 代入$x_{ndc}$为-1, $x_e$为l.
+      - $\beta = -\cfrac{r+l}{r-l}$
+      - 同理可得, $y_{ndc} = \cfrac{2}{t-b}y_e - \cfrac{t+b}{t-b}$
+      - $z_{ndc}=\cfrac{2}{-f+n}z_e+\beta$, 代入$z_{ndc}$为-1, $z_e$为-n. $\beta=-1+\cfrac{2n}{n-f}$
+      - $z_{ndc}=-\cfrac{2}{f-n}z_e-\cfrac{f+n}{f-n}$
+      - 推出矩阵如下:
+      $$
+         \left[
+             \begin{matrix}
+                \cfrac{2}{r-l}&0&0&-\cfrac{r+l}{r-l}\\
+                0&\cfrac{2}{t-b}&0&-\cfrac{t+b}{t-b}\\
+                0&0&-\cfrac{2}{f-n}&-\cfrac{f+n}{f-n}\\
+                0&0&0&1\\
+             \end{matrix}
+         \right]
+      $$
+
 5. 屏幕空间(screen space):
