@@ -101,3 +101,18 @@
       $$
 
 5. 屏幕空间(screen space):
+   - 由于上述的齐次坐标的w值为$-z_e$, 且$x_{clip}/w_{clip}\in{[-1,1]}$, 所以可以得知clip空间的形状和大小应该如下图所示:
+   ![](perspective_clip2ndc.png)
+   - 获得Normalized Device Coordination后, 将这个正方体的面映射到屏幕上, 这个映射较为简单, 只是一个缩放的过程.
+---------------------------------------------------------------------------
+#### **Unity Shader**
+- 矩阵: 
+  - 在Unity Shader中的矩阵采用右乘的方式. 有时候也可以使用左乘来减少转置矩阵的计算.
+  - 在Shaderlab中构建矩阵, 采用的是行优先的顺序, 即先填充每一行的参数, 之后再填充下一行. 而在unity的脚本中也有一个Matrix类, 这时采用的则是列优先的顺序.
+- 法线变换: 法线在空间变换时, 直接使用空间变换矩阵会得到错误的结果. 此时则需要更换一个矩阵G来作为法线变换的转换矩阵.
+  - $T_A\cdot N_A = 0, T_B\cdot N_B = 0$
+  - $T_B = M_{A\to{B}}T_A, M_{A\to{B}}T_A \cdot GN_A = 0$
+  - $T_B \cdot N_B = (T_B)^T N_B = 0$
+  - $(M_{A\to{B}}T_A)^T GN_A = T_A^T M_{A\to{B}}^T G N_A = 0$
+  - 当$M_{A\to{B}}^T G = I$时, 上述式子成立. 则$G = (M_{A\to{B}}^T)^{-1}$
+  - 在shaderlab中使用UNITY_MATRIX_IT_MV来表示这个矩阵(从model空间到view空间).
