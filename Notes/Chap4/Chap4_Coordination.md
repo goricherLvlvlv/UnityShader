@@ -20,88 +20,61 @@
    ![](topFrustum.png)
 
    - 投影矩阵推导如下:
-     $$
-        \left[
-            \begin{matrix}
-                x_{clip}\\
-                y_{clip}\\
-                z_{clip}\\
-                w_{clip}\\
-            \end{matrix}
-        \right]
-        =
-        M_{projection} *
-        \left[
-            \begin{matrix}
-                x_{eye}\\
-                y_{eye}\\
-                z_{eye}\\
-                w_{eye}\\
-            \end{matrix}
-        \right]
-     $$
-     $$
-        \left[
-            \begin{matrix}
-                x_{ndc}\\
-                y_{ndc}\\
-                z_{ndc}\\
-            \end{matrix}
-        \right]
-        =
-        \left[
-            \begin{matrix}
-                x_{clip}/w_{clip}\\
-                y_{clip}/w_{clip}\\
-                z_{clip}/w_{clip}\\
-            \end{matrix}
-        \right]
-     $$
-     - 在空间中有一点, 坐标为$(x_e, y_e, z_e)$. 与近平面相交于一点, 坐标为$(x_p, y_p, z_p)$.
-     - $\cfrac{-n}{z_e} = \cfrac{x_p}{x_e}$与$\cfrac{-n}{z_e} = \cfrac{y_p}{y_e}$.
-     - 关于y轴同理可得, 从而推出交点坐标$(\cfrac{-n}{z_e}x_e, \cfrac{-n}{z_e}y_e, -n)$. 在xy的平面上只要分别除以l和r就能获得(-1,1)的区间, 为了让z轴也处于(-1,1)的区间, 所以使用$-z_e$来作w值. $z_{ndc} = (k*z_e+b)/-z_e$, $z_{ndc}$在-1,1的位置则可产生两条公式:
-       - $-1 = -k + b/n$
-       - $1 = -k + b/f$
-       - $b = \cfrac{2fn}{n-f}, k = \cfrac{n+f}{n-f}$
-       - $z_{clip} = \cfrac{n+f}{n-f}z_e + \cfrac{2fn}{n-f}$
+
+    ![](https://latex.codecogs.com/png.latex?&space;&space;&space;&space;&space;&space;&space;&space;\\left[&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\begin{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;x_{clip}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;y_{clip}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;z_{clip}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;w_{clip}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\end{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;\\right]&space;&space;&space;&space;&space;&space;&space;&space;&space;=&space;&space;&space;&space;&space;&space;&space;&space;&space;M_{projection}&space;*&space;&space;&space;&space;&space;&space;&space;&space;&space;\\left[&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\begin{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;x_{eye}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;y_{eye}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;z_{eye}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;w_{eye}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\end{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;\\right]&space;)
+
+
+    ![](https://latex.codecogs.com/png.latex?&space;&space;&space;&space;&space;&space;&space;&space;\\left[&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\begin{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;x_{ndc}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;y_{ndc}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;z_{ndc}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\end{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;\\right]&space;&space;&space;&space;&space;&space;&space;&space;&space;=&space;&space;&space;&space;&space;&space;&space;&space;&space;\\left[&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\begin{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;x_{clip}/w_{clip}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;y_{clip}/w_{clip}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;z_{clip}/w_{clip}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\end{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;\\right]&space;)
+
+     - 在空间中有一点, 坐标为![](https://latex.codecogs.com/png.latex?(x_e,&space;y_e,&space;z_e)). 与近平面相交于一点, 坐标为![](https://latex.codecogs.com/png.latex?(x_p,&space;y_p,&space;z_p)).
+
+     - ![](https://latex.codecogs.com/png.latex?\cfrac{-n}{z_e}&space;=&space;\cfrac{x_p}{x_e})与![](https://latex.codecogs.com/png.latex?\cfrac{-n}{z_e}&space;=&space;\cfrac{y_p}{y_e}).
+
+     - 关于y轴同理可得, 从而推出交点坐标![](https://latex.codecogs.com/png.latex?(\cfrac{-n}{z_e}x_e,&space;\cfrac{-n}{z_e}y_e,&space;-n)). 在xy的平面上只要分别除以l和r就能获得(-1,1)的区间, 为了让z轴也处于(-1,1)的区间, 所以使用![](https://latex.codecogs.com/png.latex?-z_e)来作w值. ![](https://latex.codecogs.com/png.latex?z_{ndc}&space;=&space;(k*z_e+b)/-z_e), ![](https://latex.codecogs.com/png.latex?z_{ndc})在-1,1的位置则可产生两条公式:
+
+       - ![](https://latex.codecogs.com/png.latex?-1&space;=&space;-k&space;+&space;b/n)
+
+       - ![](https://latex.codecogs.com/png.latex?1&space;=&space;-k&space;+&space;b/f)
+
+       - ![](https://latex.codecogs.com/png.latex?b&space;=&space;\cfrac{2fn}{n-f},&space;k&space;=&space;\cfrac{n+f}{n-f})
+
+       - ![](https://latex.codecogs.com/png.latex?z_{clip}&space;=&space;\cfrac{n+f}{n-f}z_e&space;+&space;\cfrac{2fn}{n-f})
+
      - 关于xy平面的计算:
-       - $x_{ndc} = \cfrac{1--1}{r-l}x_p+b$.
-       - $1 = \cfrac{2r}{r-l} + b$ => $b = \cfrac{l+r}{l-r}$
-       - $x_{ndc} = \cfrac{2}{r-l}*\cfrac{nx_e}{-z_e} + \cfrac{l+r}{l-r}$
-       - $x_{clip} = \cfrac{2nx_e}{r-l} + \cfrac{(r+l)z_e}{r-l}$
-       - $y_{clip} = \cfrac{2ny_e}{t-b} + \cfrac{(t+b)z_e}{t-b}$
+       - ![](https://latex.codecogs.com/png.latex?x_{ndc}&space;=&space;\cfrac{1--1}{r-l}x_p+b).
+
+       - ![](https://latex.codecogs.com/png.latex?1&space;=&space;\cfrac{2r}{r-l}&space;+&space;b) => ![](https://latex.codecogs.com/png.latex?b&space;=&space;\cfrac{l+r}{l-r})
+
+       - ![](https://latex.codecogs.com/png.latex?x_{ndc}&space;=&space;\cfrac{2}{r-l}*\cfrac{nx_e}{-z_e}&space;+&space;\cfrac{l+r}{l-r})
+
+       - ![](https://latex.codecogs.com/png.latex?x_{clip}&space;=&space;\cfrac{2nx_e}{r-l}&space;+&space;\cfrac{(r+l)z_e}{r-l})
+
+       - ![](https://latex.codecogs.com/png.latex?y_{clip}&space;=&space;\cfrac{2ny_e}{t-b}&space;+&space;\cfrac{(t+b)z_e}{t-b})
+
      - 推出矩阵如下:
-     $$
-        \left[
-            \begin{matrix}
-                \cfrac{2n}{r-l}&0&\cfrac{r+l}{r-l}&0\\
-                0&\cfrac{2n}{t-b}&\cfrac{t+b}{t-b}&0\\
-                0&0&\cfrac{n+f}{n-f}&\cfrac{2fn}{n-f}\\
-                0&0&-1&0\\
-            \end{matrix}
-        \right]
-     $$
+
+    ![](https://latex.codecogs.com/png.latex?&space;&space;&space;&space;&space;&space;&space;&space;\\left[&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\begin{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\cfrac{2n}{r-l}&0&\\cfrac{r+l}{r-l}&0\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;0&\\cfrac{2n}{t-b}&\\cfrac{t+b}{t-b}&0\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;0&0&\\cfrac{n+f}{n-f}&\\cfrac{2fn}{n-f}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;0&0&-1&0\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\end{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;\\right]&space;)
+
     ![](orthographic.png)
     - 正交投影矩阵:
-      - $x_{ndc} = \cfrac{2}{r-l}x_e + \beta$, 代入$x_{ndc}$为-1, $x_e$为l.
-      - $\beta = -\cfrac{r+l}{r-l}$
-      - 同理可得, $y_{ndc} = \cfrac{2}{t-b}y_e - \cfrac{t+b}{t-b}$
-      - $z_{ndc}=\cfrac{2}{-f+n}z_e+\beta$, 代入$z_{ndc}$为-1, $z_e$为-n. $\beta=-1+\cfrac{2n}{n-f}$
-      - $z_{ndc}=-\cfrac{2}{f-n}z_e-\cfrac{f+n}{f-n}$
+      - ![](https://latex.codecogs.com/png.latex?x_{ndc}&space;=&space;\cfrac{2}{r-l}x_e&space;+&space;\beta), 代入![](https://latex.codecogs.com/png.latex?x_{ndc})为-1, ![](https://latex.codecogs.com/png.latex?x_e)为l.
+
+      - ![](https://latex.codecogs.com/png.latex?\beta&space;=&space;-\cfrac{r+l}{r-l})
+
+      - 同理可得, ![](https://latex.codecogs.com/png.latex?y_{ndc}&space;=&space;\cfrac{2}{t-b}y_e&space;-&space;\cfrac{t+b}{t-b})
+
+      - ![](https://latex.codecogs.com/png.latex?z_{ndc}=\cfrac{2}{-f+n}z_e+\beta), 代入![](https://latex.codecogs.com/png.latex?z_{ndc})为-1, ![](https://latex.codecogs.com/png.latex?z_e)为-n. ![](https://latex.codecogs.com/png.latex?\beta=-1+\cfrac{2n}{n-f})
+
+      - ![](https://latex.codecogs.com/png.latex?z_{ndc}=-\cfrac{2}{f-n}z_e-\cfrac{f+n}{f-n})
+
       - 推出矩阵如下:
-      $$
-         \left[
-             \begin{matrix}
-                \cfrac{2}{r-l}&0&0&-\cfrac{r+l}{r-l}\\
-                0&\cfrac{2}{t-b}&0&-\cfrac{t+b}{t-b}\\
-                0&0&-\cfrac{2}{f-n}&-\cfrac{f+n}{f-n}\\
-                0&0&0&1\\
-             \end{matrix}
-         \right]
-      $$
+
+    ![](https://latex.codecogs.com/png.latex?&space;&space;&space;&space;&space;&space;&space;&space;&space;\\left[&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\begin{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\cfrac{2}{r-l}&0&0&-\\cfrac{r+l}{r-l}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;0&\\cfrac{2}{t-b}&0&-\\cfrac{t+b}{t-b}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;0&0&-\\cfrac{2}{f-n}&-\\cfrac{f+n}{f-n}\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;0&0&0&1\\\\&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\end{matrix}&space;&space;&space;&space;&space;&space;&space;&space;&space;&space;\\right]&space;)
+
 
 5. 屏幕空间(screen space):
-   - 由于上述的齐次坐标的w值为$-z_e$, 且$x_{clip}/w_{clip}\in{[-1,1]}$, 所以可以得知clip空间的形状和大小应该如下图所示:
+   - 由于上述的齐次坐标的w值为![](https://latex.codecogs.com/png.latex?-z_e), 且![](https://latex.codecogs.com/png.latex?x_{clip}/w_{clip}\in{[-1,1]}), 所以可以得知clip空间的形状和大小应该如下图所示:
+
    ![](perspective_clip2ndc.png)
    - 获得Normalized Device Coordination后, 将这个正方体的面映射到屏幕上, 这个映射较为简单, 只是一个缩放的过程.
 ---------------------------------------------------------------------------
@@ -110,9 +83,14 @@
   - 在Unity Shader中的矩阵采用右乘的方式. 有时候也可以使用左乘来减少转置矩阵的计算.
   - 在Shaderlab中构建矩阵, 采用的是行优先的顺序, 即先填充每一行的参数, 之后再填充下一行. 而在unity的脚本中也有一个Matrix类, 这时采用的则是列优先的顺序.
 - 法线变换: 法线在空间变换时, 直接使用空间变换矩阵会得到错误的结果. 此时则需要更换一个矩阵G来作为法线变换的转换矩阵.
-  - $T_A\cdot N_A = 0, T_B\cdot N_B = 0$
-  - $T_B = M_{A\to{B}}T_A, M_{A\to{B}}T_A \cdot GN_A = 0$
-  - $T_B \cdot N_B = (T_B)^T N_B = 0$
-  - $(M_{A\to{B}}T_A)^T GN_A = T_A^T M_{A\to{B}}^T G N_A = 0$
-  - 当$M_{A\to{B}}^T G = I$时, 上述式子成立. 则$G = (M_{A\to{B}}^T)^{-1}$
+  - ![](https://latex.codecogs.com/png.latex?T_A\cdot&space;N_A&space;=&space;0,&space;T_B\cdot&space;N_B&space;=&space;0)
+
+  - ![](https://latex.codecogs.com/png.latex?T_B&space;=&space;M_{A\to{B}}T_A,&space;M_{A\to{B}}T_A&space;\cdot&space;GN_A&space;=&space;0)
+
+  - ![](https://latex.codecogs.com/png.latex?T_B&space;\cdot&space;N_B&space;=&space;(T_B)^T&space;N_B&space;=&space;0)
+
+  - ![](https://latex.codecogs.com/png.latex?(M_{A\to{B}}T_A)^T&space;GN_A&space;=&space;T_A^T&space;M_{A\to{B}}^T&space;G&space;N_A&space;=&space;0)
+
+  - 当![](https://latex.codecogs.com/png.latex?M_{A\to{B}}^T&space;G&space;=&space;I)时, 上述式子成立. 则![](https://latex.codecogs.com/png.latex?G&space;=&space;(M_{A\to{B}}^T)^{-1})
+
   - 在shaderlab中使用UNITY_MATRIX_IT_MV来表示这个矩阵(从model空间到view空间).
