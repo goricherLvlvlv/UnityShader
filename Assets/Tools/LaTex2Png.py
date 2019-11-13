@@ -1,4 +1,14 @@
 import sys
+import requests
+
+
+pic_index = 0
+
+
+def request_download(url, name):
+    r = requests.get(url)
+    with open('pic'+name+'.png', 'wb') as file:
+        file.write(r.content)
 
 
 def ConvertMatrix2Png(str_list):
@@ -8,7 +18,12 @@ def ConvertMatrix2Png(str_list):
         tmp = tmp.replace('\\', '\\\\')
         tmp = tmp.replace(' ', '&space;')
         res += tmp + '&space;'
-    return "\n![](https://latex.codecogs.com/png.latex?{0})".format(res) + '\n\n'
+
+    url = "https://latex.codecogs.com/png.latex?{0}".format(res)
+    global pic_index
+    request_download(url, str(pic_index))
+    pic_index += 1
+    return "\n" + "![](https://latex.codecogs.com/png.latex?{0})".format(res) + '\n\n'
 
 
 def ConvertSentence2Png(str_line, left, right):
@@ -22,6 +37,11 @@ def ConvertSentence2Png(str_line, left, right):
                 new_str_line += str_line[right[i - 1] + 1: left[i]]
             latex = str_line[left[i] + 1: right[i]]
             latex = latex.replace(' ', '&space;')
+
+            url = "https://latex.codecogs.com/png.latex?{0}".format(latex)
+            global pic_index
+            request_download(url, str(pic_index))
+            pic_index += 1
             new_str_line += "![](https://latex.codecogs.com/png.latex?{0})".format(latex)
             # 补上单行结尾
             if i is left.__len__() - 1:
@@ -50,10 +70,10 @@ def GetSingleFlag(str_line):
 
 if __name__ == '__main__':
     f = open(sys.argv[1], 'r+')
+    # f = open('/Users/game_dev/Projects/UnityShader/Notes/Chap6/Chap6_Light.md', 'r+')
     lines = f.readlines()
     new_f = list()
     doubleFlag = list()
-
     for lineIndex in range(0, lines.__len__()):
 
         line = lines[lineIndex]
@@ -77,4 +97,5 @@ if __name__ == '__main__':
             new_f[doubleFlag[index]] = ConvertMatrix2Png(lines[doubleFlag[index] + 1: doubleFlag[index + 1]])
 
     f = open(sys.argv[1], 'w')
+    # f = open('/Users/game_dev/Projects/UnityShader/Notes/Chap6/Chap6_Light.md', 'w')
     f.write(''.join(new_f))
