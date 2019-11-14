@@ -5,12 +5,16 @@ import requests
 pic_index = 0
 
 
+# 下载图片,并返回图片地址
 def request_download(url, name):
     r = requests.get(url)
-    with open('pic'+name+'.png', 'wb') as file:
+    with open(sys.argv[2] + '/pic'+name+'.png', 'wb') as file:
         file.write(r.content)
 
+    return 'pic'+name+'.png'
 
+
+# 将矩阵转为图片
 def ConvertMatrix2Png(str_list):
     res = ''
     for str_item in str_list:
@@ -21,11 +25,13 @@ def ConvertMatrix2Png(str_list):
 
     url = "https://latex.codecogs.com/png.latex?{0}".format(res)
     global pic_index
-    request_download(url, str(pic_index))
+    pic_name = request_download(url, str(pic_index))
     pic_index += 1
-    return "\n" + "![](https://latex.codecogs.com/png.latex?{0})".format(res) + '\n\n'
+    # return "\n" + "![](https://latex.codecogs.com/png.latex?{0})".format(res) + '\n\n'
+    return '\n!' + '![]({0})'.format(pic_name) + '\n\n'
 
 
+# 将一句数学公式转为图片
 def ConvertSentence2Png(str_line, left, right):
     new_str_line = ''
     res_index = 0
@@ -40,9 +46,10 @@ def ConvertSentence2Png(str_line, left, right):
 
             url = "https://latex.codecogs.com/png.latex?{0}".format(latex)
             global pic_index
-            request_download(url, str(pic_index))
+            pic_name = request_download(url, str(pic_index))
             pic_index += 1
-            new_str_line += "![](https://latex.codecogs.com/png.latex?{0})".format(latex)
+            # new_str_line += "![](https://latex.codecogs.com/png.latex?{0})".format(latex)
+            new_str_line += '![]({0})'.format(pic_name)
             # 补上单行结尾
             if i is left.__len__() - 1:
                 new_str_line += str_line[right[i] + 1:]
