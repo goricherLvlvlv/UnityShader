@@ -3,15 +3,16 @@ import requests
 
 
 pic_index = 0
-
+pic_prefix = ''
 
 # 下载图片,并返回图片地址
 def request_download(url, name):
+    global pic_prefix
     r = requests.get(url)
     with open(sys.argv[2] + '/pic'+name+'.png', 'wb') as file:
         file.write(r.content)
 
-    return 'pic'+name+'.png'
+    return pic_prefix+name+'.png'
 
 
 # 将矩阵转为图片
@@ -76,33 +77,42 @@ def GetSingleFlag(str_line):
 
 
 if __name__ == '__main__':
-    f = open(sys.argv[1], 'r+')
-    # f = open('/Users/game_dev/Projects/UnityShader/Notes/Chap6/Chap6_Light.md', 'r+')
-    lines = f.readlines()
-    new_f = list()
-    doubleFlag = list()
-    for lineIndex in range(0, lines.__len__()):
+    help_list = list('-h','-H','--h','--help','-help','-HELP','--HELP')
+    if help_list.__contains__(sys.argv[1]):
+        print('argv[1]: file path  argv[2]: picture path  argv[3]: picture prefix  argv[4]: picture index')
+    else:
+        f = open(sys.argv[1], 'r+')
 
-        line = lines[lineIndex]
-        # 保存坐标
-        left = list()
-        right = list()
-        # 保存新字符串
-        new_line = ''
-        # 计算出每一个$的位置
-        left, right = GetSingleFlag(line)
-        # 将这一行的数学公式替换成图片
-        new_line, double_index = ConvertSentence2Png(line, left, right)
-        if double_index is not 0:
-            doubleFlag.append(double_index)
+        global pic_prefix
+        pic_prefix = sys.argv[3]
 
-        new_f.append(new_line + '\n' if new_line is not '' else line)
+        global pic_index
+        pic_index = sys.argv[4]
 
-    for index in range(doubleFlag.__len__() - 1, -1, -1):
-        if index % 2 == 0:
-            del new_f[doubleFlag[index] + 1: doubleFlag[index + 1] + 1]
-            new_f[doubleFlag[index]] = ConvertMatrix2Png(lines[doubleFlag[index] + 1: doubleFlag[index + 1]])
+        lines = f.readlines()
+        new_f = list()
+        doubleFlag = list()
+        for lineIndex in range(0, lines.__len__()):
 
-    f = open(sys.argv[1], 'w')
-    # f = open('/Users/game_dev/Projects/UnityShader/Notes/Chap6/Chap6_Light.md', 'w')
-    f.write(''.join(new_f))
+            line = lines[lineIndex]
+            # 保存坐标
+            left = list()
+            right = list()
+            # 保存新字符串
+            new_line = ''
+            # 计算出每一个$的位置
+            left, right = GetSingleFlag(line)
+            # 将这一行的数学公式替换成图片
+            new_line, double_index = ConvertSentence2Png(line, left, right)
+            if double_index is not 0:
+                doubleFlag.append(double_index)
+
+            new_f.append(new_line + '\n' if new_line is not '' else line)
+
+        for index in range(doubleFlag.__len__() - 1, -1, -1):
+            if index % 2 == 0:
+                del new_f[doubleFlag[index] + 1: doubleFlag[index + 1] + 1]
+                new_f[doubleFlag[index]] = ConvertMatrix2Png(lines[doubleFlag[index] + 1: doubleFlag[index + 1]])
+
+        f = open(sys.argv[1], 'w')
+        f.write(''.join(new_f))
