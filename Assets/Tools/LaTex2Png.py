@@ -1,9 +1,8 @@
+#!/usr/bin/python
+# coding=utf-8
 import sys
 import requests
 
-
-pic_index = 0
-pic_prefix = ''
 
 # 下载图片,并返回图片地址
 def request_download(url, name):
@@ -77,16 +76,14 @@ def GetSingleFlag(str_line):
 
 
 if __name__ == '__main__':
-    help_list = list('-h','-H','--h','--help','-help','-HELP','--HELP')
+    help_list = ['-h','-H','--h','--help','-help','-HELP','--HELP']
     if help_list.__contains__(sys.argv[1]):
-        print('argv[1]: file path  argv[2]: picture path  argv[3]: picture prefix  argv[4]: picture index')
+        print('argv[1]: file path  \nargv[2]: picture path  \nargv[3]: picture prefix  \nargv[4]: picture index')
     else:
         f = open(sys.argv[1], 'r+')
 
-        global pic_prefix
         pic_prefix = sys.argv[3]
 
-        global pic_index
         pic_index = sys.argv[4]
 
         lines = f.readlines()
