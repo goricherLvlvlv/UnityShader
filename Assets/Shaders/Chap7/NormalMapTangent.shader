@@ -67,7 +67,7 @@ Shader "Custom/Chap7/NormalMapTangent"
 				f.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
 
 				// 计算binormal, tangent.w用于决定副法线的方向
-				float3 binormal = cross(normalize(v.normal), normalize(v.tangent.xyz)) * v.tangent.w;
+				// float3 binormal = cross(normalize(v.normal), normalize(v.tangent.xyz)) * v.tangent.w;
 				// 建立坐标系转换矩阵
 				// x轴为切线, z轴为模型空间法线
 				// y轴为x,z的叉乘结果
