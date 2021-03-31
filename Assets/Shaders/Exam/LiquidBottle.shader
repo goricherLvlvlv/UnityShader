@@ -66,7 +66,8 @@
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
                 o.edge.x = _Time.y;
-                o.edge.y = mul(unity_ObjectToWorld, v.vertex).y + UNITY_ACCESS_INSTANCED_PROP(Props, _FillAmount) - UNITY_ACCESS_INSTANCED_PROP(Props, _Height) + sin(_Time.y * 2) * (v.vertex.x * 2 + v.vertex.z) / 8;
+                o.edge.y = mul(unity_ObjectToWorld, v.vertex).y + UNITY_ACCESS_INSTANCED_PROP(Props, _FillAmount) - UNITY_ACCESS_INSTANCED_PROP(Props, _Height);
+                o.edge.y += sin((_Time.y + v.vertex.x) * 4) / 6;
                 o.edge.z = _Time.y;
                 return o;
             }

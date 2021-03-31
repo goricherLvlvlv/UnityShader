@@ -510,4 +510,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b2256d5bda5c52448fcc67b945e3a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FillAmount: 0.4
+  FillAmount: 0.55
