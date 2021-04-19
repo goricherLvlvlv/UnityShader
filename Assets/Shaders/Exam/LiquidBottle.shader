@@ -1,11 +1,11 @@
-﻿Shader "Unlit/LiquidBottle"
+﻿Shader "Exam/LiquidBottle"
 {
     Properties
     {
         _Color ("液体颜色", Color) = (1, 1, 1, 1)
         _FloatColor("浮沫颜色", Color) = (1, 1, 1, 1)
         _TopColor("顶部颜色", Color) = (1, 1, 1, 1)
-        [HideInInspector]_FillAmount("填充度", Range(-1, 2)) = 0
+        _FillAmount("填充度", Range(-1, 2)) = 0
         _FloatEdge("浮沫高度", Float) = 0.05
         _BottleWidth("瓶子厚度", Float) = 0.1
 

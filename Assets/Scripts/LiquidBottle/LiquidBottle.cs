@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class LiquidBottle : MonoBehaviour
 {
@@ -8,10 +9,17 @@ public class LiquidBottle : MonoBehaviour
     public float FillAmount;
 
     private MaterialPropertyBlock properties;
+    private MaterialPropertyBlock Properties 
+    {
+        get
+        {
+            properties = properties ?? new MaterialPropertyBlock();
+            return properties;
+        }
+    }
 
     private void Awake()
     {
-        properties = new MaterialPropertyBlock();
     }
 
     private void Start()
@@ -23,20 +31,27 @@ public class LiquidBottle : MonoBehaviour
     {
         if (transform.hasChanged)
         {
-            properties.SetFloat("_Height", transform.position.y);
-            if (TryGetComponent(out MeshRenderer component))
-            {
-                component.SetPropertyBlock(properties);
-            }
+            SetHeight();
         }        
     }
 
-    public void SetFillAmount()
+    [ContextMenu("SetHeight")]
+    public void SetHeight()
     {
-        properties.SetFloat("_FillAmount", -FillAmount * 3 + 2);
+        Properties.SetFloat("_Height", transform.position.y);
         if (TryGetComponent(out MeshRenderer component))
         {
-            component.SetPropertyBlock(properties);
+            component.SetPropertyBlock(Properties);
+        }
+    }
+
+    [ContextMenu("SetFillAmount")]
+    public void SetFillAmount()
+    {
+        Properties.SetFloat("_FillAmount", -FillAmount * 3 + 2);
+        if (TryGetComponent(out MeshRenderer component))
+        {
+            component.SetPropertyBlock(Properties);
         }
     }
 }

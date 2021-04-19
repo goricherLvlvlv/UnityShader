@@ -79,6 +79,7 @@ Shader "Custom/PostEffects/EdgeDetectNormalAndDepth"
 			
 			*/
 			
+			// xy代表法线数据, zw代表深度数据
 			fixed4 sample1 = tex2D(_CameraDepthNormalsTexture, i.uv[1]);
 			fixed4 sample2 = tex2D(_CameraDepthNormalsTexture, i.uv[2]);
 			fixed4 sample3 = tex2D(_CameraDepthNormalsTexture, i.uv[3]);
